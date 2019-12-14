@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="dimen_VeryLarge">@dimen/_350sdp</dimen>
+    <dimen name="dimen_Large">@dimen/_280sdp</dimen>
+    <dimen name="dimen_very_Medium">@dimen/_248sdp</dimen>
+    <dimen name="dimen_very_very_medium">@dimen/_230sdp</dimen>
+    <dimen name="dimen_Big_Medium">@dimen/_200sdp</dimen>
+    <dimen name="dimen_Medium">@dimen/_150sdp</dimen>
+    <dimen name="dimen_very_Big_Medium">@dimen/_210sdp</dimen>
+    <dimen name="dimen_veryVeryVerySmall">@dimen/_25sdp</dimen>
+    <dimen name="dimen_BigSmall">@dimen/_100sdp</dimen>
+    <dimen name="dimen_BigLarg">@dimen/_120sdp</dimen>
+    <dimen name="dimen_Small">@dimen/_75sdp</dimen>
+    <dimen name="dimen_Small2">@dimen/_59sdp</dimen>
+    <dimen name="dimen_VerySmall">@dimen/_50sdp</dimen>
+    <dimen name="height_button">@dimen/_30sdp</dimen>
+    <dimen name="dimen_OptionMenu">@dimen/_30sdp</dimen>
+    <dimen name="dimen_VeryVerySmall">@dimen/_30sdp</dimen>
+    <dimen name="dimen_Photo_large">@dimen/_140sdp</dimen>
+
+    <dimen name="text_VeryLarge">@dimen/_20sdp</dimen>
+    <dimen name="text_Large">@dimen/_17sdp</dimen>
+    <dimen name="text_Medium">@dimen/_14sdp</dimen>
+    <dimen name="text_Small">@dimen/_12sdp</dimen>
+    <dimen name="text_VerySmall">@dimen/_9sdp</dimen>
+    <dimen name="text_VeryVerySmall">@dimen/_7sdp</dimen>
+    <dimen name="title">@dimen/_24sdp</dimen>
+
+    <dimen name="margin_Large">@dimen/_20sdp</dimen>
+    <dimen name="margin_VeryMedium">@dimen/_14sdp</dimen>
+    <dimen name="margin_Medium">@dimen/_10sdp</dimen>
+    <dimen name="margin_BigSmall">@dimen/_7sdp</dimen>
+    <dimen name="margin_Small">@dimen/_5sdp</dimen>
+    <dimen name="margin_VerySmall">@dimen/_2sdp</dimen>
+    <dimen name="margin_BigLarge">@dimen/_25sdp</dimen>
+    <dimen name="margin_veryLarge">@dimen/_60sdp</dimen>
+    <dimen name="height_day_tab">@dimen/_35sdp</dimen>
+
+    <dimen name="padding_Large">@dimen/_20sdp</dimen>
+    <dimen name="padding_VeryMedium">@dimen/_15sdp</dimen>
+    <dimen name="padding_Medium">@dimen/_10sdp</dimen>
+    <dimen name="padding_BigSmall">@dimen/_7sdp</dimen>
+    <dimen name="padding_Small">@dimen/_5sdp</dimen>
+    <dimen name="padding_VerySmall">@dimen/_2sdp</dimen>
+    <dimen name="padding_BigLarge">@dimen/_25sdp</dimen>
+    <dimen name="padding_veryLarge">@dimen/_60sdp</dimen>
+    <dimen name="padding_Below_TabLayout">@dimen/_45sdp</dimen>
+    <dimen name="view_height">@dimen/_1sdp</dimen>
+    <dimen name="dimen_edittext">@dimen/_200sdp</dimen>
+</resources>
