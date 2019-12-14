@@ -1,11 +1,10 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.snosey'
 
 android {
     compileSdkVersion 28
-    defaultConfig {
-        applicationId "com.dinnova.sharedlibrary"
+    defaultConfig { 
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
