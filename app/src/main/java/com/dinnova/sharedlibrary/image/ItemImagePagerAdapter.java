@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.dinnova.kidzgram.R;
+import com.dinnova.sharedlibrary.R;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -55,7 +55,7 @@ public class ItemImagePagerAdapter extends PagerAdapter {
             @Override
             public void onError(Exception e) {
                 progress.setVisibility(View.GONE);
-                imageView.setImageResource(R.drawable.logo_icon);
+                imageView.setImageResource(android.R.drawable.ic_menu_gallery);
             }
         });
 

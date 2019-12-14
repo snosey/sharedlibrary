@@ -103,7 +103,7 @@ public class PickLocation implements OnMapReadyCallback {
         Intent intent =
                 new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.LAT_LNG))
                         .build(fragmentActivity);
-        fragmentActivity.startActivityForResult(intent, SEND_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST);
+        fragmentActivity.startActivityForResult(intent, SHARED_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST);
     }
 
     private void checkLocationPermission() {
@@ -126,7 +126,7 @@ public class PickLocation implements OnMapReadyCallback {
                                 //Prompt the user once explanation has been shown
                                 ActivityCompat.requestPermissions(fragmentActivity,
                                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                                        SEND_KEY_REQUESTS.LOCATION_PERMISSION);
+                                        SHARED_KEY_REQUESTS.LOCATION_PERMISSION);
                             }
                         })
                         .create()
@@ -136,14 +136,14 @@ public class PickLocation implements OnMapReadyCallback {
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(fragmentActivity, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                        SEND_KEY_REQUESTS.LOCATION_PERMISSION);
+                        SHARED_KEY_REQUESTS.LOCATION_PERMISSION);
             }
         }
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case SEND_KEY_REQUESTS.LOCATION_PERMISSION: {
+            case SHARED_KEY_REQUESTS.LOCATION_PERMISSION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -199,7 +199,7 @@ public class PickLocation implements OnMapReadyCallback {
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
                     // TODO Auto-generated method stub
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    fragmentActivity.startActivityForResult(myIntent, SEND_KEY_REQUESTS.OPEN_GPS_REQUEST);
+                    fragmentActivity.startActivityForResult(myIntent, SHARED_KEY_REQUESTS.OPEN_GPS_REQUEST);
                     //get gps
                 }
             });
@@ -271,9 +271,9 @@ public class PickLocation implements OnMapReadyCallback {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == SEND_KEY_REQUESTS.OPEN_GPS_REQUEST) {
+        if (requestCode == SHARED_KEY_REQUESTS.OPEN_GPS_REQUEST) {
             checkLocation();
-        } else if (requestCode == SEND_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST) {
+        } else if (requestCode == SHARED_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST) {
             if (resultCode == RESULT_OK) {
                 setLocation(Autocomplete.getPlaceFromIntent(data).getLatLng().latitude, Autocomplete.getPlaceFromIntent(data).getLatLng().longitude);
             }

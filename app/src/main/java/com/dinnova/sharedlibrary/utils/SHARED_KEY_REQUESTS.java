@@ -6,7 +6,7 @@ import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 
-public class SEND_KEY_REQUESTS {
+public class SHARED_KEY_REQUESTS {
     public static final int PHONE_PERMISSION = 213;
     public static final int STORAGE_PERMISSION = 121;
     public static final int PICK_IMAGE_REQUEST = 122;
@@ -14,6 +14,7 @@ public class SEND_KEY_REQUESTS {
     public static final int LOCATION_PERMISSION = 99;
     public static final int PLACE_AUTOCOMPLETE_REQUEST = 1;
     public static final int ACCESS_LOCATION_PERMISSION = 31123;
+    public static String MapApiKey;
 
 
     public static boolean hasPermissions(Context context, String... permissions) {

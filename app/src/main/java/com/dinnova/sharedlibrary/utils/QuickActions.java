@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.dinnova.kidzgram.Application;
-import com.dinnova.kidzgram.support.image.FullScreen;
-import com.dinnova.kidzgram.support.webservice.utils.WebService;
+
+import com.dinnova.sharedlibrary.image.FullScreen;
+import com.dinnova.sharedlibrary.webservice.WebService;
 
 import java.net.URLEncoder;
 import java.text.ParseException;
@@ -75,7 +75,7 @@ public class QuickActions {
 
     public static String getMapThumb(String lat, String lng) {
         String imgMap = "https://maps.googleapis.com/maps/api/staticmap?center="
-                + lat + "," + lng + "&zoom=14&size=600x300&key=" + Application.MapApiKey;
+                + lat + "," + lng + "&zoom=14&size=600x300&key=" + SHARED_KEY_REQUESTS.MapApiKey;
         Log.e("MapImageUrl", imgMap);
         return imgMap;
     }
@@ -114,8 +114,8 @@ public class QuickActions {
     public void contactUS(String phoneNumber, FragmentActivity fragmentActivity) {
         if (Build.VERSION.SDK_INT >= 23) {
             String[] PERMISSIONS = {android.Manifest.permission.CALL_PHONE};
-            if (!SEND_KEY_REQUESTS.hasPermissions(context, PERMISSIONS)) {
-                fragmentActivity.requestPermissions(PERMISSIONS, SEND_KEY_REQUESTS.PHONE_PERMISSION);
+            if (!SHARED_KEY_REQUESTS.hasPermissions(context, PERMISSIONS)) {
+                fragmentActivity.requestPermissions(PERMISSIONS, SHARED_KEY_REQUESTS.PHONE_PERMISSION);
             } else {
                 makeCall(phoneNumber);
             }

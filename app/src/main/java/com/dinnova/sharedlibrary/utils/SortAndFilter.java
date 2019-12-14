@@ -1,16 +1,9 @@
 package com.dinnova.sharedlibrary.utils;
 
-import android.widget.Filter;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.dinnova.kidzgram.support.webservice.models.OrganizationModel;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class SortAndFilter {
+
+}
+/*{
 
     RecyclerView.Adapter adapter;
     List<OrganizationModel> filterItems;
@@ -108,4 +101,4 @@ public class SortAndFilter {
     }
 
 
-}
+}*/

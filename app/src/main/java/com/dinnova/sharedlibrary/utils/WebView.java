@@ -11,29 +11,17 @@ import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.RequiresApi;
 
 import com.dinnova.sharedlibrary.R;
 import com.dinnova.sharedlibrary.webservice.WebService;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by Snosey on 4/15/2018.
  */
 
 public class WebView extends Activity {
-
-
-    @BindView(R.id.back)
-    ImageView back;
-    @BindView(R.id.top)
-    RelativeLayout top;
-    @BindView(R.id.webView)
     android.webkit.WebView webview;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -44,7 +32,7 @@ public class WebView extends Activity {
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         getWindow().setFeatureInt(Window.FEATURE_PROGRESS, Window.PROGRESS_VISIBILITY_ON);
         setContentView(R.layout.webview);
-        ButterKnife.bind(this);
+        webview = findViewById(R.id.webView);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setUpWebView();
