@@ -16,6 +16,11 @@ public class CustomActivity extends FragmentActivity {
     public Resources resources = getResources();
 
     @Override
+    public Resources getResources() {
+        return resources;
+    }
+
+    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
