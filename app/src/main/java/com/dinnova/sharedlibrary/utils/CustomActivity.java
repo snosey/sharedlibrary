@@ -17,7 +17,10 @@ public class CustomActivity extends FragmentActivity {
 
     @Override
     public Resources getResources() {
-        return resources;
+        if (resources == null)
+            return super.getResources();
+        else
+            return resources;
     }
 
     @Override
