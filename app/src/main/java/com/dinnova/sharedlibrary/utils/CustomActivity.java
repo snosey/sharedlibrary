@@ -35,9 +35,10 @@ public class CustomActivity extends FragmentActivity {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    public void updateViews(String languageCode) {
+    public void changeLang(String languageCode) {
         Context context = LocaleHelper.setLocale(this, languageCode);
         resources = context.getResources();
+        recreate();
     }
 
     private static class LocaleHelper {
