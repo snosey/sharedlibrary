@@ -15,12 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.Locale;
 
 public class CustomActivity extends FragmentActivity {
-    public Resources resources = getApplication().getResources();
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public Resources resources;
 
     @Override
     public Resources getResources() {
