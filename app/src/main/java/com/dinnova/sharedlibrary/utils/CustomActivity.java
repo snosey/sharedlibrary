@@ -6,21 +6,33 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.Locale;
 
 public class CustomActivity extends FragmentActivity {
-    public Resources resources = getResources();
+    public Resources resources = getApplication().getResources();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public Resources getResources() {
-        if (resources == null)
-            return super.getResources();
-        else
-            return resources;
+        if (resources == null) {
+            try {
+                return super.getResources();
+            }catch (Exception e)
+            {
+                return null;
+            }
+        }
+        return resources;
     }
 
     @Override
