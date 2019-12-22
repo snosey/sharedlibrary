@@ -1,4 +1,4 @@
-package com.dinnova.sharedlibrary.utils;
+package com.dinnova.sharedlibrary.image;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
