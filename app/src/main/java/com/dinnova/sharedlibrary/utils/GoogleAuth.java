@@ -2,6 +2,7 @@ package com.dinnova.sharedlibrary.utils;
 
 import android.content.Intent;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Response;
@@ -23,9 +24,9 @@ public class GoogleAuth {
         googleApiClient = GoogleSignIn.getClient(activity, gso);
     }
 
-    public void onClick() {
+    public void onClick(Fragment fragment) {
         Intent signInIntent = googleApiClient.getSignInIntent();
-        activity.startActivityForResult(signInIntent, SHARED_KEY_REQUESTS.GOOGLE_SIGN_REQUEST);
+        fragment.startActivityForResult(signInIntent, SHARED_KEY_REQUESTS.GOOGLE_SIGN_REQUEST);
     }
 
     public void getAccount(int requestCode, int resultCode, Intent data, Response.Listener<GoogleSignInAccount> listener) {
