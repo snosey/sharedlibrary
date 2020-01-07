@@ -13,6 +13,7 @@ public class SHARED_KEY_REQUESTS {
     public static final int OPEN_GPS_REQUEST = 133;
     public static final int LOCATION_PERMISSION = 99;
     public static final int PLACE_AUTOCOMPLETE_REQUEST = 1;
+    public static final int GOOGLE_SIGN_REQUEST = 1;
     public static final int ACCESS_LOCATION_PERMISSION = 31123;
     public static String MapApiKey;
 
