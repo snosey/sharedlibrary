@@ -10,9 +10,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 
-import androidx.loader.content.CursorLoader;
+import androidx.annotation.RequiresApi;
 
 
 public class GetRealFilePath {
@@ -36,63 +35,32 @@ public class GetRealFilePath {
 
         // check here to KITKAT or new version
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
-        // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
 
-            // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/"
-                            + split[1];
-                }
-            }
-            // DownloadsProvider
-            else if (isDownloadsDocument(uri)) {
-
-                final String id = DocumentsContract.getDocumentId(uri);
-                if (!TextUtils.isEmpty(id)) {
-                    if (id.startsWith("raw:")) {
-                        return id.replaceFirst("raw:", "");
-                    }
-                    try {
-                        final Uri contentUri = ContentUris.withAppendedId(
-                                Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
-                        return getDataColumn(context, contentUri, null, null);
-                    } catch (NumberFormatException e) {
-                        return null;
-                    }
+                return Environment.getExternalStorageDirectory() + "/"
+                        + getId(uri);
+            } else if (isDownloadsDocument(uri)) {
+                int id = getId(uri);
+                try {
+                    final Uri contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                    return getDataColumn(context, contentUri, null, null);
+                } catch (NumberFormatException e) {
+                    return null;
                 }
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
-                final String docId = DocumentsContract.getDocumentId(uri);
-                final String[] split = docId.split(":");
-                final String type = split[0];
-
-                Uri contentUri = null;
-                if ("image".equals(type)) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                } else if ("video".equals(type)) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
-                } else if ("audio".equals(type)) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-                }
-
+                final String[] selectionArgs = new String[]{getId(uri) + ""};
+                Uri contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[]{split[1]};
-
                 return getDataColumn(context, contentUri, selection,
                         selectionArgs);
             }
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
-
             // Return the remote address
             if (isGooglePhotosUri(uri))
                 return uri.getLastPathSegment();
@@ -105,6 +73,28 @@ public class GetRealFilePath {
         }
 
         return nopath;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private static int getId(Uri uri) {
+        final String docId = DocumentsContract.getDocumentId(uri);
+        if (docId.startsWith("raw:")) {
+            docId.replaceFirst("raw:", "");
+        }
+        final String[] split = docId.split(":");
+        final String type = split[0];
+
+        Uri contentUri = null;
+        if ("image".equals(type)) {
+            contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        } else if ("video".equals(type)) {
+            contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+        } else if ("audio".equals(type)) {
+            contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        }
+
+        final String selection = "_id=?";
+        return Integer.parseInt(split[1]);
     }
 
     /**
@@ -175,4 +165,3 @@ public class GetRealFilePath {
                 .getAuthority());
     }
 }
-

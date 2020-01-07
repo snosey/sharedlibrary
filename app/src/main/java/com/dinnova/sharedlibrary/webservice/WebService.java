@@ -15,6 +15,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
 import com.dinnova.sharedlibrary.R;
+import com.dinnova.sharedlibrary.utils.StaticTextAlerts;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,13 +97,18 @@ public class WebService extends Request<String> {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         progress = new ProgressDialog(activity);
-        progress.setMessage(activity.getString(R.string.com_facebook_loading));
+        progress.setMessage(StaticTextAlerts.loadingAlert);
         progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
 
-        if (showLoading) {
+        if (showLoading&&!activity.isDestroyed()) {
             Log.e("ProgressShow", "true");
             try {
-                progress.show();
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progress.show();
+                    }
+                });
             } catch (Exception e) {
 
             }

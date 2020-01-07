@@ -64,7 +64,7 @@ public class WebView extends Activity {
 
                 // Return the app name after finish loading
                 if (newProgress == 100)
-                    setTitle(R.string.app_name);
+                    setTitle(StaticTextAlerts.APP_NAME);
 
             }
 
