@@ -6,13 +6,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
 import java.util.Locale;
+
 
 public class CustomActivity extends FragmentActivity {
     public Resources resources;
@@ -22,22 +22,22 @@ public class CustomActivity extends FragmentActivity {
         if (resources == null) {
             try {
                 return super.getResources();
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 return null;
             }
         }
         return resources;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public void changeLang(String languageCode) {
-        Context context = LocaleHelper.setLocale(this, languageCode);
-        resources = context.getResources();
+        LocaleHelper.persist(this, languageCode);
         recreate();
     }
 
@@ -45,27 +45,18 @@ public class CustomActivity extends FragmentActivity {
 
         private static final String SELECTED_LANGUAGE = "Locale.Helper.Selected.Language";
 
+        @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
         public static Context onAttach(Context context) {
             String lang = getPersistedData(context, Locale.getDefault().getLanguage());
             return setLocale(context, lang);
         }
 
-        public static Context onAttach(Context context, String defaultLanguage) {
-            String lang = getPersistedData(context, defaultLanguage);
-            return setLocale(context, lang);
-        }
-
-        public static String getLanguage(Context context) {
-            return getPersistedData(context, Locale.getDefault().getLanguage());
-        }
-
+        @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
         public static Context setLocale(Context context, String language) {
             persist(context, language);
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 return updateResources(context, language);
             }
-
             return updateResourcesLegacy(context, language);
         }
 
@@ -74,10 +65,10 @@ public class CustomActivity extends FragmentActivity {
             return preferences.getString(SELECTED_LANGUAGE, defaultLanguage);
         }
 
-        private static void persist(Context context, String language) {
+        @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+        static void persist(Context context, String language) {
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences.Editor editor = preferences.edit();
-
             editor.putString(SELECTED_LANGUAGE, language);
             editor.apply();
         }
