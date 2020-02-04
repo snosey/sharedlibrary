@@ -1,13 +1,14 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.snosey'
+group = 'com.github.snosey'
 
 android {
+    ext { minSdkVersion = 20 }
     compileSdkVersion 28
 }
 
 dependencies {
-    implementation 'com.google.android.material:material:1.2.0-alpha03'
+    implementation 'com.google.android.material:material:1.2.0-alpha04'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.media:media:1.2.0-alpha01'
     implementation 'androidx.browser:browser:1.2.0'
@@ -15,14 +16,14 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:5.13.0'
     implementation 'com.wdullaer:materialdatetimepicker:4.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.github.Mariovc:ImagePicker:1.2.2'
     implementation 'com.jakewharton:butterknife:10.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.2.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.2.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.hbb20:ccp:2.2.0'
@@ -33,7 +34,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.myinnos:AwesomeImagePicker:1.0.2'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-core:17.2.2'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.1.0'

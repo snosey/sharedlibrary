@@ -14,7 +14,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.Volley;
-import com.dinnova.sharedlibrary.R;
 import com.dinnova.sharedlibrary.utils.StaticTextAlerts;
 
 import org.json.JSONArray;
@@ -56,6 +55,16 @@ public class WebService extends Request<String> {
     private HashMap<String, File> fileList;
     private boolean isMultiPart;
     HttpEntity httpEntity;
+
+
+    public static String getResponseData(String json) {
+        try {
+            return new JSONObject(json).getJSONObject(WebService.Data).toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public WebService(final FragmentActivity activity, HashMap<String, File> fileList, boolean isFileArray, int method, final String url, UrlData urlData, final boolean showLoading,
                       boolean messageAlert, JSONObject params, Response.Listener<String> listener) {
@@ -100,7 +109,7 @@ public class WebService extends Request<String> {
         progress.setMessage(StaticTextAlerts.loadingAlert);
         progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
 
-        if (showLoading&&!activity.isDestroyed()) {
+        if (showLoading && !activity.isDestroyed()) {
             Log.e("ProgressShow", "true");
             try {
                 activity.runOnUiThread(new Runnable() {

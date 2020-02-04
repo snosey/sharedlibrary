@@ -13,6 +13,10 @@ public class UrlData extends JsonConverter implements Serializable {
     String string = "";
 
     public void put(String key, String value) {
+
+        if (value.equals("-1") || value.isEmpty())
+            return;
+
         try {
             if (string.equals(""))
                 string += key + "=" + URLEncoder.encode(value, "UTF-8");
