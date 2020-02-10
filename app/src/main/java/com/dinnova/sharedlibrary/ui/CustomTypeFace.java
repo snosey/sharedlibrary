@@ -4,9 +4,15 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 public class CustomTypeFace {
-    public static String light;
-    public static Context context;
-    public static String bold;
+    private static String light;
+    private static Context context;
+    private static String bold;
+
+    public static void init(String bold,String light,Context context) {
+        CustomTypeFace.bold=bold;
+        CustomTypeFace.light=light;
+        CustomTypeFace.context=context;
+    }
 
     public static Typeface BoldFont() {
         return Typeface.createFromAsset(context.getAssets(), bold);

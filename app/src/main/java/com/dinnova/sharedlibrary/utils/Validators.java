@@ -2,7 +2,9 @@ package com.dinnova.sharedlibrary.utils;
 
 import com.dinnova.sharedlibrary.ui.CustomEditText;
 import com.dinnova.sharedlibrary.webservice.WebService;
-import com.hbb20.CountryCodePicker;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,13 +53,22 @@ public class Validators {
     }
 
 
-    public static boolean checkPhone(CustomEditText editText, String code) {
-        CountryCodePicker globalPhoneNumber = new CountryCodePicker(editText.getContext());
-        globalPhoneNumber.setFullNumber(code + editText.getText().toString());
+    public static boolean checkPhone(CustomEditText editText, String code) { //NOTE: This should probably be a member variable.
 
-        Boolean b = globalPhoneNumber.isValidFullNumber();
+
+        //NOTE: This should probably be a member variable.
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        boolean b;
+        try {
+            Phonenumber.PhoneNumber numberProto = phoneUtil.parse(editText.getText().toString(), code);
+            b = phoneUtil.isValidNumber(numberProto);
+        } catch (NumberParseException e) {
+            b = false;
+            System.err.println("NumberParseException was thrown: " + e.toString());
+        }
         if (!b)
             editText.setError(StaticTextAlerts.phoneAlert);
+
         return b;
     }
 
