@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -23,6 +24,6 @@ public class JsonConverter implements Serializable {
 
     public Object jsonToListModel(String jsonObject) throws JSONException {
         Object [] array = (Object[])java.lang.reflect.Array.newInstance(super.getClass(), 0);
-        return new Gson().fromJson(new JSONObject(jsonObject).getJSONArray(WebService.Data).toString(),array.getClass());
+        return Arrays.asList( new Gson().fromJson(new JSONObject(jsonObject).getJSONArray(WebService.Data).toString(),array.getClass()));
     }
 }
