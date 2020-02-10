@@ -11,6 +11,18 @@ import java.net.URLEncoder;
 //customize url data which need to send in post
 public class UrlData extends JsonConverter implements Serializable {
     String string = "";
+    public static String tokenkey = "", tokenValu = "";
+
+    public static void init(String tokenKey, String tokenValu) {
+        UrlData.tokenkey = tokenKey;
+        UrlData.tokenValu = tokenValu;
+    }
+
+    public UrlData() {
+        if (!UrlData.tokenValu.isEmpty()) {
+            put(UrlData.tokenkey, UrlData.tokenValu);
+        }
+    }
 
     public void put(String key, String value) {
 
