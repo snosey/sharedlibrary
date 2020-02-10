@@ -21,7 +21,7 @@ public class JsonConverter implements Serializable {
         return new Gson().fromJson(new JSONObject(jsonObject).getJSONObject(WebService.Data).toString(), super.getClass());
     }
 
-    public Object[] jsonToListModel(String jsonObject) throws JSONException {
+    public Object jsonToListModel(String jsonObject) throws JSONException {
         Object [] array = (Object[])java.lang.reflect.Array.newInstance(super.getClass(), 0);
         return new Gson().fromJson(new JSONObject(jsonObject).getJSONArray(WebService.Data).toString(),array.getClass());
     }
