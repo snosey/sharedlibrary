@@ -241,4 +241,9 @@ public class WebService extends Request<String> {
         }
     }
 
+    public static String paramJson(String paramIn) {
+        paramIn = paramIn.replaceAll("=", "\":\"");
+        paramIn = paramIn.replaceAll("&", "\",\"");
+        return "{\"" + paramIn + "\"}";
+    }
 }

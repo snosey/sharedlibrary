@@ -18,10 +18,10 @@ import com.squareup.picasso.Picasso;
 public class FullScreen extends Dialog {
     public FullScreen(@NonNull final Context activity, String url) {
         super(activity, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
-        this.show();
-        this.setContentView(R.layout.image_full_screen);
-        PhotoView imageView = this.findViewById(R.id.image);
-        ImageView back = this.findViewById(R.id.back);
+        show();
+        setContentView(R.layout.image_full_screen);
+        PhotoView imageView = findViewById(R.id.image);
+        ImageView back = findViewById(R.id.back);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
