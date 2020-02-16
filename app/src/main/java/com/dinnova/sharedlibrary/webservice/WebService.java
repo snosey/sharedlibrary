@@ -48,12 +48,13 @@ public class WebService extends Request<String> {
     private static FragmentActivity activity;
     public static String BASE_URL;
     private ProgressDialog progress = null;
-    private JSONObject params;
+    private Object params;
     private Response.Listener<String> mListener;
     private boolean showLoading;
     private boolean messageAlert;
     private HashMap<String, File> fileList;
     private boolean isMultiPart;
+    private boolean isJsonObject;
     HttpEntity httpEntity;
 
 
@@ -66,8 +67,8 @@ public class WebService extends Request<String> {
         return "";
     }
 
-    public WebService(final FragmentActivity activity, HashMap<String, File> fileList, boolean isFileArray, int method, final String url, UrlData urlData, final boolean showLoading,
-                      boolean messageAlert, JSONObject params, Response.Listener<String> listener) {
+    public WebService(final FragmentActivity activity, HashMap<String, File> fileList, boolean isMultiPart, int method, final String url, UrlData urlData, final boolean showLoading,
+                      boolean messageAlert, Object paramsObject, boolean isJsonObject, Response.Listener<String> listener) {
         super(method, BASE_URL + url + urlData.get(), new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -94,11 +95,12 @@ public class WebService extends Request<String> {
         WebService.activity = activity;
 
         this.fileList = fileList;
-        this.isMultiPart = isFileArray;
+        this.isMultiPart = isMultiPart;
         mListener = listener;
+        this.isJsonObject = isJsonObject;
         this.messageAlert = messageAlert;
         this.showLoading = showLoading;
-        this.params = params;
+        this.params = (JSONObject) paramsObject;
         Log.e("API/URL", BASE_URL + url + urlData.get());
         this.setRetryPolicy(new DefaultRetryPolicy(
                 0,
@@ -132,9 +134,13 @@ public class WebService extends Request<String> {
                 it.remove(); // avoids a ConcurrentModificationException
             }
         }
+        JSONObject params = new JSONObject();
+        if (isJsonObject)
+            params = (JSONObject) this.params;
+
         Iterator<String> keys = params.keys();
 
-        while (keys.hasNext() && isMultiPart) {
+        while (keys.hasNext() && this.isMultiPart) {
             String key = keys.next();
             try {
                 Log.e("MULTIPART/", key + ":- " + params.get(key).toString());
@@ -247,7 +253,7 @@ public class WebService extends Request<String> {
         return "{\"" + paramIn + "\"}";
     }
 
-    public static void showErrorMsg(String json){
+    public static void showErrorMsg(String json) {
         try {
             Toast.makeText(activity, new JSONObject(json).getJSONObject(WebService.Status).getString(WebService.Message), Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
