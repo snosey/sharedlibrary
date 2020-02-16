@@ -53,7 +53,7 @@ public class AddNotificationToken {
                             e.printStackTrace();
                         }
                         new WebService(fragmentActivity, null, false, Request.Method.POST, URL,
-                                urlData, false, false, jsonObject, new Response.Listener<String>() {
+                                urlData, false, false, jsonObject,true, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
