@@ -246,4 +246,12 @@ public class WebService extends Request<String> {
         paramIn = paramIn.replaceAll("&", "\",\"");
         return "{\"" + paramIn + "\"}";
     }
+
+    public static void showErrorMsg(String json){
+        try {
+            Toast.makeText(activity, new JSONObject(json).getJSONObject(WebService.Status).getString(WebService.Message), Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
