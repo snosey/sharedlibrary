@@ -100,7 +100,7 @@ public class WebService extends Request<String> {
         this.isJsonObject = isJsonObject;
         this.messageAlert = messageAlert;
         this.showLoading = showLoading;
-        this.params = (JSONObject) paramsObject;
+        this.params = paramsObject;
         Log.e("API/URL", BASE_URL + url + urlData.get());
         this.setRetryPolicy(new DefaultRetryPolicy(
                 0,
