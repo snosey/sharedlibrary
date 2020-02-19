@@ -6,10 +6,13 @@ package com.dinnova.sharedlibrary.ui;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatCheckBox;
+
+import com.dinnova.sharedlibrary.R;
 
 
 public class CustomCheckBox extends AppCompatCheckBox {
@@ -29,6 +32,7 @@ public class CustomCheckBox extends AppCompatCheckBox {
         this.context = context;
         Typeface face = CustomTypeFace.BoldFont();
         this.setTypeface(face);
+        setCustomText(context,attrs);
         color = this.getTextColors();
     }
 
@@ -37,7 +41,23 @@ public class CustomCheckBox extends AppCompatCheckBox {
         this.context = context;
         Typeface face = CustomTypeFace.BoldFont();
         this.setTypeface(face);
+        setCustomText(context,attrs);
         color = this.getTextColors();
+    }
+
+    private void setCustomText(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomCheckBox, 0, 0);
+        String text = "";
+        try {
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomCheckBox_stringKey));
+        } catch (Exception e) {
+
+        } finally {
+            typedArray.recycle();
+        }
+        if (text != null) {
+            setText(text);
+        }
     }
 
     @Override

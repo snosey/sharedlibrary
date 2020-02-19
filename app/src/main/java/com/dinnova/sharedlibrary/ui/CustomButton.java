@@ -5,10 +5,13 @@ package com.dinnova.sharedlibrary.ui;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatButton;
+
+import com.dinnova.sharedlibrary.R;
 
 
 public class CustomButton extends AppCompatButton {
@@ -22,12 +25,29 @@ public class CustomButton extends AppCompatButton {
         super(context, attrs);
         Typeface face = CustomTypeFace.BoldFont();
         this.setTypeface(face);
+        setCustomText(context,attrs);
     }
 
     public CustomButton(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         Typeface face = CustomTypeFace.BoldFont();
         this.setTypeface(face);
+        setCustomText(context,attrs);
+    }
+
+    private void setCustomText(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomButton, 0, 0);
+        String text = "";
+        try {
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomButton_stringKey));
+        } catch (Exception e) {
+
+        } finally {
+            typedArray.recycle();
+        }
+        if (text != null) {
+            setText(text);
+        }
     }
 /*
     @Override

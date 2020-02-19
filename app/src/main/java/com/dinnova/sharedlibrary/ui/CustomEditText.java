@@ -5,6 +5,7 @@ package com.dinnova.sharedlibrary.ui;
  */
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -13,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
+
+import com.dinnova.sharedlibrary.R;
 
 
 public class CustomEditText extends AppCompatEditText {
@@ -32,6 +35,21 @@ public class CustomEditText extends AppCompatEditText {
         Typeface face = CustomTypeFace.BoldFont();
         drawableClick();
         this.setTypeface(face);
+        setCustomText(context,attrs);
+    }
+    private void setCustomText(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomEditText, 0, 0);
+        String text = "";
+        try {
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomEditText_stringKey));
+        } catch (Exception e) {
+
+        } finally {
+            typedArray.recycle();
+        }
+        if (text != null) {
+            setText(text);
+        }
     }
 
  /*   @Override
@@ -50,6 +68,7 @@ public class CustomEditText extends AppCompatEditText {
         Typeface face = CustomTypeFace.BoldFont();
         drawableClick();
         this.setTypeface(face);
+        setCustomText(context,attrs);
     }
 
     public void setPassword(Boolean isPassword) {
