@@ -38,7 +38,7 @@ public class CustomRadioButton extends androidx.appcompat.widget.AppCompatRadioB
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomRadioButton, 0, 0);
         String text = "";
         try {
-            text = LanguageText.get(typedArray.getString(R.styleable.CustomRadioButton_stringKey));
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomRadioButton_customText));
         } catch (Exception e) {
 
         } finally {

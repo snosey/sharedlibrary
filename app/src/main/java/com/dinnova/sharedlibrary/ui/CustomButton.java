@@ -39,7 +39,7 @@ public class CustomButton extends AppCompatButton {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomButton, 0, 0);
         String text = "";
         try {
-            text = LanguageText.get(typedArray.getString(R.styleable.CustomButton_stringKey));
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomButton_customText));
         } catch (Exception e) {
 
         } finally {

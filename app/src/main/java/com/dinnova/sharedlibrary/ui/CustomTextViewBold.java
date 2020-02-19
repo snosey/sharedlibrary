@@ -38,7 +38,7 @@ public class CustomTextViewBold extends AppCompatTextView {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomTextViewBold, 0, 0);
         String text = "";
         try {
-            text = typedArray.getString(R.styleable.CustomTextViewBold_stringKey);
+            text = typedArray.getString(R.styleable.CustomTextViewBold_customText);
         } finally {
             typedArray.recycle();
         }

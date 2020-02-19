@@ -36,12 +36,29 @@ public class CustomEditText extends AppCompatEditText {
         drawableClick();
         this.setTypeface(face);
         setCustomText(context,attrs);
+        setCustomHint(context,attrs);
     }
+    private void setCustomHint(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomEditText, 0, 0);
+        String text = "";
+        try {
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomEditText_customHint));
+        } catch (Exception e) {
+
+        } finally {
+            typedArray.recycle();
+        }
+        if (text != null) {
+            setHint(text);
+        }
+    }
+
+
     private void setCustomText(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomEditText, 0, 0);
         String text = "";
         try {
-            text = LanguageText.get(typedArray.getString(R.styleable.CustomEditText_stringKey));
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomEditText_customText));
         } catch (Exception e) {
 
         } finally {

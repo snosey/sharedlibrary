@@ -49,7 +49,7 @@ public class CustomCheckBox extends AppCompatCheckBox {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomCheckBox, 0, 0);
         String text = "";
         try {
-            text = LanguageText.get(typedArray.getString(R.styleable.CustomCheckBox_stringKey));
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomCheckBox_customText));
         } catch (Exception e) {
 
         } finally {

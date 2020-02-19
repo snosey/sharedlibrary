@@ -38,7 +38,7 @@ public class CustomTextViewLight extends AppCompatTextView {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomTextViewLight, 0, 0);
         String text = "";
         try {
-            text = LanguageText.get(typedArray.getString(R.styleable.CustomTextViewLight_stringKey));
+            text = LanguageText.get(typedArray.getString(R.styleable.CustomTextViewLight_customText));
         } catch (Exception e) {
 
         } finally {
