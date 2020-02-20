@@ -75,7 +75,7 @@ public class QuickActions {
 
     public static String getMapThumb(String lat, String lng) {
         String imgMap = "https://maps.googleapis.com/maps/api/staticmap?center="
-                + lat + "," + lng + "&zoom=14&size=600x300&key=" + SHARED_KEY_REQUESTS.MapApiKey;
+                + lat + "," + lng + "&zoom=14&size=600x300&Key=" + SHARED_KEY_REQUESTS.MapApiKey;
         Log.e("MapImageUrl", imgMap);
         return imgMap;
     }

@@ -98,7 +98,7 @@ public class GetRealFilePath {
     }
 
     /**
-     * Get the value of the data column for this Uri. This is <span id="IL_AD2"
+     * Get the Value of the data column for this Uri. This is <span id="IL_AD2"
      * class="IL_AD">useful</span> for MediaStore Uris, and other file-based
      * ContentProviders.
      *
@@ -106,7 +106,7 @@ public class GetRealFilePath {
      * @param uri           The Uri to query.
      * @param selection     (Optional) Filter used in the query.
      * @param selectionArgs (Optional) Selection arguments used in the query.
-     * @return The value of the _data column, which is typically a file path.
+     * @return The Value of the _data column, which is typically a file path.
      */
     public static String getDataColumn(Context context, Uri uri,
                                        String selection, String[] selectionArgs) {

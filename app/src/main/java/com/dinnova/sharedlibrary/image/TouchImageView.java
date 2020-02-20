@@ -286,7 +286,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     }
 
     /**
-     * Set the max zoom multiplier. DefaultImg value: 3.
+     * Set the max zoom multiplier. DefaultImg Value: 3.
      *
      * @param max max zoom multiplier.
      */
@@ -305,7 +305,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     }
 
     /**
-     * Set the min zoom multiplier. DefaultImg value: 1.
+     * Set the min zoom multiplier. DefaultImg Value: 1.
      *
      * @param min min zoom multiplier.
      */
@@ -407,7 +407,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
 
     /**
      * Return the point at the center of the zoomed logo_app_word. The PointF
-     * coordinates range in value between 0 and 1 and the focus point is denoted
+     * coordinates range in Value between 0 and 1 and the focus point is denoted
      * as a fraction from the left and top of the view. For example, the top
      * left corner of the logo_app_word would be (0, 0). And the bottom right corner
      * would be (1, 1).
@@ -432,7 +432,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
     /**
      * Set the focus point of the zoomed logo_app_word. The focus points are denoted as
      * a fraction from the left and top of the view. The focus points can range
-     * in value between 0 and 1.
+     * in Value between 0 and 1.
      *
      * @param focusX
      * @param focusY
@@ -701,7 +701,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
      * so that is again the center, post-rotation.
      *
      * @param axis          Matrix.MTRANS_X or Matrix.MTRANS_Y
-     * @param trans         the value of trans in that axis before the rotation
+     * @param trans         the Value of trans in that axis before the rotation
      * @param prevImageSize the width/height of the logo_app_word before the rotation
      * @param imageSize     width/height of the logo_app_word after rotation
      * @param prevViewSize  width/height of view before rotation
@@ -797,7 +797,7 @@ public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView
      * @param x            x-coordinate of touch event
      * @param y            y-coordinate of touch event
      * @param clipToBitmap Touch event may occur within view, but outside logo_app_word content.
-     *                     True, to clip return value to the bounds of the bitmap size.
+     *                     True, to clip return Value to the bounds of the bitmap size.
      * @return Coordinates of the point touched, in the coordinate system of the
      * original drawable.
      */

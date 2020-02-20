@@ -16,7 +16,7 @@ public class LanguageText {
         languageMap = new HashMap<>();
         try {
             for (LanguageModel languageModel : (List<LanguageModel>) new LanguageModel().jsonToListModel(response)) {
-                languageMap.put(languageModel.key, languageModel.value);
+                languageMap.put(languageModel.Key, languageModel.Value);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -29,9 +29,9 @@ public class LanguageText {
 
     public static class LanguageModel extends JsonConverter {
         @Expose
-        public String key;
+        public String Key;
         @Expose
-        public String value;
+        public String Value;
     }
 
 }
