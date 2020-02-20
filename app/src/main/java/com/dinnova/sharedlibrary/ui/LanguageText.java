@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.Map;
 
 public class LanguageText {
-    private static Map<String, String> languageMap;
+    private static Map<String, String> languageMap = new HashMap<>();
+
 
     public static void set(String response) {
-        languageMap = new HashMap<>();
         try {
             for (LanguageModel languageModel : (List<LanguageModel>) new LanguageModel().jsonToListModel(response)) {
                 languageMap.put(languageModel.Key, languageModel.Value);
@@ -24,10 +24,13 @@ public class LanguageText {
     }
 
     public static String get(String key) {
-        return languageMap.get(key);
+        if (languageMap.containsKey(key))
+            return languageMap.get(key);
+        else
+            return "";
     }
 
-    public static class LanguageModel extends JsonConverter {
+    private static class LanguageModel extends JsonConverter {
         @Expose
         public String Key;
         @Expose
