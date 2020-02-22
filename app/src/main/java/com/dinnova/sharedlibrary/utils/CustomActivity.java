@@ -11,12 +11,17 @@ import android.preference.PreferenceManager;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dinnova.sharedlibrary.ui.LanguageText;
+
 import java.util.Locale;
 
 
 public class CustomActivity extends FragmentActivity {
     public Resources resources;
 
+    public String getCustomText(int id){
+        return LanguageText.get(getString(id));
+    }
     @Override
     public Resources getResources() {
         if (resources == null) {

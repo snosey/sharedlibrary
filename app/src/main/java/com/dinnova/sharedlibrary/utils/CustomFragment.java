@@ -8,14 +8,14 @@ import androidx.fragment.app.FragmentActivity;
 public class CustomFragment extends Fragment {
 
 
-    public FragmentActivity fragmentActivity;
+    public CustomActivity fragmentActivity;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (context instanceof FragmentActivity){
-            fragmentActivity =(FragmentActivity) context;
+        if (context instanceof CustomActivity){
+            fragmentActivity =(CustomActivity) context;
         }
     }
 
