@@ -15,6 +15,7 @@ public class LanguageText {
 
     public static void set(String response) {
         try {
+            languageMap.clear();
             for (LanguageModel languageModel : (List<LanguageModel>) new LanguageModel().jsonToListModel(response)) {
                 languageMap.put(languageModel.Key, languageModel.Value);
             }
