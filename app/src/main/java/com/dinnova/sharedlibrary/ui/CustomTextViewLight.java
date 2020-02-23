@@ -44,6 +44,9 @@ public class CustomTextViewLight extends AppCompatTextView {
         } finally {
             typedArray.recycle();
         }
+        if (text.isEmpty()) {
+            return;
+        }
         if (text != null) {
             setText(text);
         }

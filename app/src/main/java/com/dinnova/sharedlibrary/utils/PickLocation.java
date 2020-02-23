@@ -94,7 +94,6 @@ public class PickLocation implements OnMapReadyCallback {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
         geocoder = new Geocoder(fragmentActivity, Locale.getDefault());
         checkLocation();
-
     }
 
     public void search() {

@@ -45,6 +45,9 @@ public class CustomButton extends AppCompatButton {
         } finally {
             typedArray.recycle();
         }
+        if (text.isEmpty()) {
+            return;
+        }
         if (text != null) {
             setText(text);
         }

@@ -44,6 +44,9 @@ public class CustomRadioButton extends androidx.appcompat.widget.AppCompatRadioB
         } finally {
             typedArray.recycle();
         }
+        if (text.isEmpty()) {
+            return;
+        }
         if (text != null) {
             setText(text);
         }

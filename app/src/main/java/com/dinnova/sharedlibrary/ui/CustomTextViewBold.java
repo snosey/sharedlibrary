@@ -45,7 +45,9 @@ public class CustomTextViewBold extends AppCompatTextView {
         } finally {
             typedArray.recycle();
         }
-
+        if (text.isEmpty()) {
+            return;
+        }
         if (text != null) {
             setText(text);
         }

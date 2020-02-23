@@ -35,9 +35,10 @@ public class CustomEditText extends AppCompatEditText {
         Typeface face = CustomTypeFace.BoldFont();
         drawableClick();
         this.setTypeface(face);
-        setCustomText(context,attrs);
-        setCustomHint(context,attrs);
+        setCustomText(context, attrs);
+        setCustomHint(context, attrs);
     }
+
     private void setCustomHint(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomEditText, 0, 0);
         String text = "";
@@ -47,6 +48,9 @@ public class CustomEditText extends AppCompatEditText {
 
         } finally {
             typedArray.recycle();
+        }
+        if (text.isEmpty()) {
+            return;
         }
         if (text != null) {
             setHint(text);
@@ -85,7 +89,7 @@ public class CustomEditText extends AppCompatEditText {
         Typeface face = CustomTypeFace.BoldFont();
         drawableClick();
         this.setTypeface(face);
-        setCustomText(context,attrs);
+        setCustomText(context, attrs);
     }
 
     public void setPassword(Boolean isPassword) {
