@@ -41,8 +41,9 @@ public class CustomActivity extends FragmentActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public void changeLang(String languageCode) {
+    public void changeLang(String languageCode,boolean recreate) {
         LocaleHelper.persist(this, languageCode);
+        if(recreate)
         recreate();
     }
 
