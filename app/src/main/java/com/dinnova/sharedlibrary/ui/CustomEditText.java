@@ -7,6 +7,7 @@ package com.dinnova.sharedlibrary.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -96,7 +97,7 @@ public class CustomEditText extends AppCompatEditText {
         this.isPassword = isPassword;
     }
 
-    void drawableClick() {
+    private void drawableClick() {
         this.setOnTouchListener(new OnTouchListener() {
             private int TEXT_PASSWORD_TYPE = 129;
 
@@ -130,6 +131,14 @@ public class CustomEditText extends AppCompatEditText {
                 return false;
             }
         });
+    }
+
+    public void setHtmlText(String text) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>")));
+        }
     }
 
 

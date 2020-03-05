@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatCheckBox;
@@ -69,4 +70,13 @@ public class CustomCheckBox extends AppCompatCheckBox {
         }
         super.setEnabled(enabled);
     }
+
+    public void setHtmlText(String text) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>")));
+        }
+    }
+
 }

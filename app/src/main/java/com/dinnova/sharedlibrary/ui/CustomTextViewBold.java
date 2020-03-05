@@ -7,6 +7,7 @@ package com.dinnova.sharedlibrary.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -33,6 +34,15 @@ public class CustomTextViewBold extends AppCompatTextView {
         this.setTypeface(face);
         setCustomText(context,attrs);
     }
+
+    public void setHtmlText(String text) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>")));
+        }
+    }
+
 
     private void setCustomText(Context context, AttributeSet attrs) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CustomTextViewBold, 0, 0);

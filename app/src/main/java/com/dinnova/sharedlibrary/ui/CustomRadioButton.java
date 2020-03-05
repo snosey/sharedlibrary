@@ -7,6 +7,7 @@ package com.dinnova.sharedlibrary.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
+import android.text.Html;
 import android.util.AttributeSet;
 
 import com.dinnova.sharedlibrary.R;
@@ -52,5 +53,12 @@ public class CustomRadioButton extends androidx.appcompat.widget.AppCompatRadioB
         }
     }
 
+    public void setHtmlText(String text) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>"), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            this.setText(Html.fromHtml(text.replaceAll("\n", "<br>")));
+        }
+    }
 
 }

@@ -2,6 +2,7 @@ package com.dinnova.sharedlibrary.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -11,6 +12,7 @@ import android.preference.PreferenceManager;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
 
+import com.dinnova.sharedlibrary.MainActivity;
 import com.dinnova.sharedlibrary.ui.LanguageText;
 
 import java.util.Locale;
@@ -45,6 +47,15 @@ public class CustomActivity extends FragmentActivity {
         LocaleHelper.persist(this, languageCode);
         if(recreate)
         recreate();
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    public void changeLang(String languageCode,Intent intent) {
+        LocaleHelper.persist(this, languageCode);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     private static class LocaleHelper {
