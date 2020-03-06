@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Response;
-import com.android.volley.toolbox.ImageLoader;
 import com.dinnova.sharedlibrary.ui.CustomMapTheme;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -106,9 +105,14 @@ public class PickLocation {
         });
     }
 
-    public void getLocation(final Response.Listener<LatLng> listener){
-        this.listener=listener;
+    public void getLocation(final Response.Listener<LatLng> listener) {
+        if (latLng != null) {
+            listener.onResponse(latLng);
+            this.listener = null;
+        } else this.listener = listener;
+
     }
+
     public PickLocation(FragmentActivity fragmentActivity) {
         this.fragmentActivity = fragmentActivity;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
@@ -124,8 +128,8 @@ public class PickLocation {
                     }
                     //Place current location marker
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    if(listener!=null)
-                    listener.onResponse(latLng);
+                    if (listener != null)
+                        listener.onResponse(latLng);
                 }
             }
 
