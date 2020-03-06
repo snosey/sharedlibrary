@@ -20,6 +20,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.Response;
+import com.android.volley.toolbox.ImageLoader;
 import com.dinnova.sharedlibrary.ui.CustomMapTheme;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -63,6 +64,7 @@ public class PickLocation {
     GoogleMap mGoogleMap;
     LocationCallback mLocationCallback;
     private boolean showMarker;
+    private Response.Listener<LatLng> listener;
 
 
     public void setLocationInMap(LatLng latLng) {
@@ -104,7 +106,10 @@ public class PickLocation {
         });
     }
 
-    public PickLocation(FragmentActivity fragmentActivity, final Response.Listener<LatLng> listener) {
+    public void getLocation(final Response.Listener<LatLng> listener){
+        this.listener=listener;
+    }
+    public PickLocation(FragmentActivity fragmentActivity) {
         this.fragmentActivity = fragmentActivity;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
         geocoder = new Geocoder(fragmentActivity, Locale.getDefault());
@@ -119,6 +124,7 @@ public class PickLocation {
                     }
                     //Place current location marker
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    if(listener!=null)
                     listener.onResponse(latLng);
                 }
             }
@@ -134,8 +140,6 @@ public class PickLocation {
     }
 
     private void checkLocation() {
-        Log.e("MapsActivity", "checkLocation");
-
         LocationManager lm = (LocationManager) fragmentActivity.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
@@ -174,15 +178,18 @@ public class PickLocation {
             dialog.show();
 
         } else {
+            if (!checkLocationPermission())
+                return;
             mLocationRequest = new LocationRequest();
             mLocationRequest.setInterval(120000); // two minute interval
             mLocationRequest.setFastestInterval(120000);
-            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
         }
     }
 
-    private void checkLocationPermission() {
+    private boolean checkLocationPermission() {
+        boolean b = true;
         if (ContextCompat.checkSelfPermission(fragmentActivity, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
@@ -193,6 +200,7 @@ public class PickLocation {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // fragmentActivity thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
+                b = false;
                 new AlertDialog.Builder(fragmentActivity)
                         .setTitle("Location Permission Needed")
                         .setMessage("This app needs the Location permission, please accept to use location functionality")
@@ -215,6 +223,7 @@ public class PickLocation {
                         SHARED_KEY_REQUESTS.LOCATION_PERMISSION);
             }
         }
+        return b;
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
