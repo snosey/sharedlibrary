@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.android.volley.Response;
 import com.dinnova.sharedlibrary.ui.CustomMapTheme;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -35,9 +36,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 
@@ -52,9 +51,8 @@ import static android.app.Activity.RESULT_OK;
  * Created by Snosey on 3/4/2018.
  */
 
-public class PickLocation implements OnMapReadyCallback {
-
-    GoogleMap mGoogleMap;
+public class PickLocation {
+    public LatLng currentMaplatLng;
     List<Address> addresses;
     LocationRequest mLocationRequest;
     FusedLocationProviderClient mFusedLocationClient;
@@ -64,46 +62,8 @@ public class PickLocation implements OnMapReadyCallback {
     private Marker mCurrLocationMarker;
     private LatLng latLng;
     FragmentActivity fragmentActivity;
-    LocationCallback mLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            for (Location location : locationResult.getLocations()) {
-                Log.e("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
-                mLastLocation = location;
-                if (mCurrLocationMarker != null) {
-                    mCurrLocationMarker.remove();
-                }
-
-                //Place current location marker
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title("Current Position");
-                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                // mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
-
-                //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-            }
-        }
-
-    };
-
-    public PickLocation(FragmentActivity fragmentActivity) {
-        this.fragmentActivity = fragmentActivity;
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
-        geocoder = new Geocoder(fragmentActivity, Locale.getDefault());
-        checkLocation();
-    }
-
-    public void search() {
-
-        PlacesClient placesClient = Places.createClient(fragmentActivity);
-        Intent intent =
-                new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.LAT_LNG))
-                        .build(fragmentActivity);
-        fragmentActivity.startActivityForResult(intent, SHARED_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST);
-    }
+    GoogleMap mGoogleMap;
+    LocationCallback mLocationCallback ;
 
     private void checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(fragmentActivity, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -138,38 +98,6 @@ public class PickLocation implements OnMapReadyCallback {
                         SHARED_KEY_REQUESTS.LOCATION_PERMISSION);
             }
         }
-    }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case SHARED_KEY_REQUESTS.LOCATION_PERMISSION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // location-related task you need to do.
-                    if (ContextCompat.checkSelfPermission(fragmentActivity,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            == PackageManager.PERMISSION_GRANTED) {
-
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-                        mGoogleMap.setMyLocationEnabled(true);
-                    }
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                    Toast.makeText(fragmentActivity, "permission denied", Toast.LENGTH_LONG).show();
-                }
-                return;
-            }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-
     }
 
     private void checkLocation() {
@@ -213,35 +141,33 @@ public class PickLocation implements OnMapReadyCallback {
             dialog.show();
 
         } else {
-            mapFragment.getMapAsync(this);
-        }
-    }
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    mGoogleMap.setMapStyle(new MapStyleOptions(CustomMapTheme.mapStyle));
+                    mLocationRequest = new LocationRequest();
+                    mLocationRequest.setInterval(120000); // two minute interval
+                    mLocationRequest.setFastestInterval(120000);
+                    mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mGoogleMap.setMapStyle(new MapStyleOptions(CustomMapTheme.mapStyle));
-
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(120000); // two minute interval
-        mLocationRequest.setFastestInterval(120000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(fragmentActivity,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                //Location Permission already granted
-                mGoogleMap.setMyLocationEnabled(true);
-                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-            } else {
-                //Request Location Permission
-                checkLocationPermission();
-            }
-        } else {
-            mGoogleMap.setMyLocationEnabled(true);
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(fragmentActivity,
+                                Manifest.permission.ACCESS_FINE_LOCATION)
+                                == PackageManager.PERMISSION_GRANTED) {
+                            //Location Permission already granted
+                            mGoogleMap.setMyLocationEnabled(true);
+                            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                        } else {
+                            //Request Location Permission
+                            checkLocationPermission();
+                        }
+                    } else {
+                        mGoogleMap.setMyLocationEnabled(true);
+                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                    }
+                }
+            });
         }
     }
 
@@ -267,6 +193,93 @@ public class PickLocation implements OnMapReadyCallback {
                 }
             }
         });
+    }
+
+    public void setLocationInMap(LatLng latLng, boolean showMarker) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        markerOptions.title("Current Position");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+        if (showMarker)
+            mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
+
+        currentMaplatLng = latLng;
+
+        //move map camera
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        mGoogleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                try {
+                    addresses = geocoder.getFromLocation(mGoogleMap.getCameraPosition().target.latitude, mGoogleMap.getCameraPosition().target.longitude, 1);
+                    currentMaplatLng = new LatLng(mGoogleMap.getCameraPosition().target.latitude, mGoogleMap.getCameraPosition().target.longitude);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public PickLocation(FragmentActivity fragmentActivity, GoogleMap mGoogleMap, final Response.Listener<LatLng> listener) {
+        this.mGoogleMap = mGoogleMap;
+        this.fragmentActivity = fragmentActivity;
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
+        geocoder = new Geocoder(fragmentActivity, Locale.getDefault());
+        checkLocation();
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                for (Location location : locationResult.getLocations()) {
+                    Log.e("MapsActivity", "Location: " + location.getLatitude() + " " + location.getLongitude());
+                    mLastLocation = location;
+                    if (mCurrLocationMarker != null) {
+                        mCurrLocationMarker.remove();
+                    }
+                    //Place current location marker
+                    latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    listener.onResponse(latLng);
+                }
+            }
+
+        };
+    }
+
+    public void searchByWord() {
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, Arrays.asList(Place.Field.LAT_LNG)).build(fragmentActivity);
+        fragmentActivity.startActivityForResult(intent, SHARED_KEY_REQUESTS.PLACE_AUTOCOMPLETE_REQUEST);
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case SHARED_KEY_REQUESTS.LOCATION_PERMISSION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(fragmentActivity,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                        mGoogleMap.setMyLocationEnabled(true);
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(fragmentActivity, "permission denied", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

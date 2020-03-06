@@ -15,6 +15,7 @@ public class SHARED_KEY_REQUESTS {
     public static final int PLACE_AUTOCOMPLETE_REQUEST = 1;
     public static final int GOOGLE_SIGN_REQUEST = 1;
     public static final int ACCESS_LOCATION_PERMISSION = 31123;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static String MapApiKey;
 
 
