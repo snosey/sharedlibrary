@@ -65,7 +65,6 @@ public class PickLocation {
     private boolean showMarker;
 
 
-
     public void setLocationInMap(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -109,7 +108,6 @@ public class PickLocation {
         this.fragmentActivity = fragmentActivity;
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(fragmentActivity);
         geocoder = new Geocoder(fragmentActivity, Locale.getDefault());
-        checkLocation();
         mLocationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
@@ -126,6 +124,8 @@ public class PickLocation {
             }
 
         };
+        checkLocation();
+
     }
 
     public void searchByAutoComplete() {
