@@ -128,8 +128,10 @@ public class PickLocation {
                     }
                     //Place current location marker
                     latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                    if (listener != null)
+                    if (listener != null) {
                         listener.onResponse(latLng);
+                        listener = null;
+                    }
                 }
             }
 

@@ -19,16 +19,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class AddNotificationToken {
-    public String APPLICATION_VERSION;
-    public String URL;
-    public int external_user_id;
+    private String APPLICATION_VERSION;
+    private int external_user_id;
     private FragmentActivity fragmentActivity;
 
-    public AddNotificationToken(final FragmentActivity fragmentActivity) {
+    public AddNotificationToken(final FragmentActivity fragmentActivity, String APPLICATION_VERSION, int external_user_id) {
         this.fragmentActivity = fragmentActivity;
+        this.APPLICATION_VERSION = APPLICATION_VERSION;
+        this.external_user_id = external_user_id;
     }
 
-    public void sendToken() {
+    public void sendToken(final UrlData urlData, final String URL) {
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -38,22 +39,19 @@ public class AddNotificationToken {
                         }
                         String token = task.getResult().getToken();
                         Log.e("FCM_TOKEN", token);
-                        UrlData urlData = new UrlData();
-                        JSONObject jsonObject = new JSONObject();
+                        JSONObject objectNotification = new JSONObject();
                         try {
-                            JSONObject objectNotification = new JSONObject();
                             objectNotification.put("identifier", token);
                             objectNotification.put("device_os", Build.VERSION.RELEASE);
                             objectNotification.put("game_version", APPLICATION_VERSION);
                             objectNotification.put("device_type", 1);
                             objectNotification.put("device_model", Build.MODEL);
                             objectNotification.put("external_user_id", external_user_id);
-                            jsonObject.put("NotificationDeviceModel", objectNotification);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         new WebService(fragmentActivity, null, false, Request.Method.POST, URL,
-                                urlData, false, false, jsonObject,true, new Response.Listener<String>() {
+                                urlData, false, false, objectNotification, true, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
