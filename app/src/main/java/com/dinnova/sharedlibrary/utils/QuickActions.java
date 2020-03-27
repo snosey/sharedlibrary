@@ -23,7 +23,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-
 import com.dinnova.sharedlibrary.image.FullScreen;
 import com.dinnova.sharedlibrary.webservice.WebService;
 
@@ -38,7 +37,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 public class QuickActions {
-    private Context context;
 
     public static List<Integer> getSpinnerList(int min, int max) {
         List<Integer> integers = new ArrayList<>();
@@ -47,14 +45,10 @@ public class QuickActions {
         return integers;
     }
 
-    public void setDefaultRTL(){
+    public void setDefaultRTL(FragmentActivity context) {
         Configuration configuration = context.getResources().getConfiguration();
         configuration.setLayoutDirection(new Locale("en"));
-        context.getResources().updateConfiguration(configuration,context.getResources().getDisplayMetrics());
-    }
-
-    public QuickActions(Context activity) {
-        this.context = activity;
+        context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
     }
 
     public static int minuteBetween(Date d1, Date d2) {
@@ -103,7 +97,7 @@ public class QuickActions {
         return "";
     }
 
-    private void makeCall(String phone) {
+    private void makeCall(String phone, FragmentActivity context) {
         if (!phone.isEmpty()) {
             Intent intent = new Intent(Intent.ACTION_CALL);
             intent.setData(Uri.parse("tel:" + phone));
@@ -111,7 +105,7 @@ public class QuickActions {
         }
     }
 
-    public void mailUs(String EXTRA_SUBJECT, String EXTRA_TEXT, String MAIL_TO, String TITLE) {
+    public void mailUs(String EXTRA_SUBJECT, String EXTRA_TEXT, String MAIL_TO, String TITLE, FragmentActivity context) {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto", MAIL_TO, null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, EXTRA_SUBJECT);
@@ -119,20 +113,20 @@ public class QuickActions {
         context.startActivity(Intent.createChooser(emailIntent, TITLE));
     }
 
-    public void contactUS(String phoneNumber, FragmentActivity fragmentActivity) {
+    public void contactUS(String phoneNumber, FragmentActivity context) {
         if (Build.VERSION.SDK_INT >= 23) {
             String[] PERMISSIONS = {android.Manifest.permission.CALL_PHONE};
             if (!SHARED_KEY_REQUESTS.hasPermissions(context, PERMISSIONS)) {
-                fragmentActivity.requestPermissions(PERMISSIONS, SHARED_KEY_REQUESTS.PHONE_PERMISSION);
+                context.requestPermissions(PERMISSIONS, SHARED_KEY_REQUESTS.PHONE_PERMISSION);
             } else {
-                makeCall(phoneNumber);
+                makeCall(phoneNumber, context);
             }
         } else {
-            makeCall(phoneNumber);
+            makeCall(phoneNumber, context);
         }
     }
 
-    public void shareApp() {
+    public void shareApp(FragmentActivity context) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=" + context.getPackageName());
@@ -140,30 +134,31 @@ public class QuickActions {
         context.startActivity(sendIntent);
     }
 
-    public void goLocation(double lat, double lng) {
+    public void goLocation(double lat, double lng, FragmentActivity context) {
         String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?daddr=%f,%f (%s)",
                 lat
                 , lng, "");
 
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setPackage("com.google.android.apps.maps");
         context.startActivity(intent);
 
     }
 
-    public void openUrlBrowser(String url) {
+    public void openUrlBrowser(String url, FragmentActivity context) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(browserIntent);
     }
 
-    public void openUrlWebView(String webviewUrl) {
+    public void openUrlWebView(String webviewUrl, FragmentActivity context) {
         Intent intent = new Intent(context, WebView.class);
         intent.putExtra(WebService.Data, webviewUrl);
         context.startActivity(intent);
     }
 
 
-    public void rateApp() {
+    public void rateApp(FragmentActivity context) {
         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
         Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
         try {
@@ -174,7 +169,7 @@ public class QuickActions {
 
     }
 
-    public void whatsapp(String phone) {
+    public void whatsapp(String phone, FragmentActivity context) {
         PackageManager packageManager = context.getPackageManager();
         Intent i = new Intent(Intent.ACTION_VIEW);
 
@@ -190,8 +185,8 @@ public class QuickActions {
         }
     }
 
-    public void imageFullScreen(String imgUrl) {
-        new FullScreen((FragmentActivity) context, imgUrl);
+    public void imageFullScreen(String imgUrl, FragmentActivity context) {
+        new FullScreen(context, imgUrl);
     }
 
     public static class CalendarHelper {
@@ -202,7 +197,7 @@ public class QuickActions {
         public static final int CALENDARHELPER_PERMISSION_REQUEST_CODE = 99;
 
 
-        public static void MakeNewCalendarEntry(Activity caller,String title,String description,String location,long startTime,long endTime, boolean allDay,boolean hasAlarm, int calendarId,int selectedReminderValue) {
+        public static void MakeNewCalendarEntry(Activity caller, String title, String description, String location, long startTime, long endTime, boolean allDay, boolean hasAlarm, int calendarId, int selectedReminderValue) {
 
             ContentResolver cr = caller.getContentResolver();
             ContentValues values = new ContentValues();
@@ -214,26 +209,23 @@ public class QuickActions {
             values.put(CalendarContract.Events.STATUS, CalendarContract.Events.STATUS_CONFIRMED);
 
 
-            if (allDay)
-            {
+            if (allDay) {
                 values.put(CalendarContract.Events.ALL_DAY, true);
             }
 
-            if (hasAlarm)
-            {
+            if (hasAlarm) {
                 values.put(CalendarContract.Events.HAS_ALARM, true);
             }
 
             //Get current timezone
             values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
-            Log.i(TAG, "Timezone retrieved=>"+TimeZone.getDefault().getID());
+            Log.i(TAG, "Timezone retrieved=>" + TimeZone.getDefault().getID());
             Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
-            Log.i(TAG, "Uri returned=>"+uri.toString());
+            Log.i(TAG, "Uri returned=>" + uri.toString());
             // get the event ID that is the last element in the Uri
             long eventID = Long.parseLong(uri.getLastPathSegment());
 
-            if (hasAlarm)
-            {
+            if (hasAlarm) {
                 ContentValues reminders = new ContentValues();
                 reminders.put(CalendarContract.Reminders.EVENT_ID, eventID);
                 reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
@@ -245,28 +237,23 @@ public class QuickActions {
 
         }
 
-        public static void requestCalendarReadWritePermission(Activity caller)
-        {
+        public static void requestCalendarReadWritePermission(Activity caller) {
             List<String> permissionList = new ArrayList<String>();
 
-            if  (ContextCompat.checkSelfPermission(caller,Manifest.permission.WRITE_CALENDAR)!=PackageManager.PERMISSION_GRANTED)
-            {
+            if (ContextCompat.checkSelfPermission(caller, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(Manifest.permission.WRITE_CALENDAR);
 
             }
 
-            if  (ContextCompat.checkSelfPermission(caller,Manifest.permission.READ_CALENDAR)!=PackageManager.PERMISSION_GRANTED)
-            {
+            if (ContextCompat.checkSelfPermission(caller, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(Manifest.permission.READ_CALENDAR);
 
             }
 
-            if (permissionList.size()>0)
-            {
-                String [] permissionArray = new String[permissionList.size()];
+            if (permissionList.size() > 0) {
+                String[] permissionArray = new String[permissionList.size()];
 
-                for (int i=0;i<permissionList.size();i++)
-                {
+                for (int i = 0; i < permissionList.size(); i++) {
                     permissionArray[i] = permissionList.get(i);
                 }
 
@@ -279,7 +266,7 @@ public class QuickActions {
 
         public static Hashtable listCalendarId(Context c) {
 
-            if (haveCalendarReadWritePermissions((Activity)c)) {
+            if (haveCalendarReadWritePermissions((Activity) c)) {
 
                 String projection[] = {"_id", "calendar_displayName"};
                 Uri calendars;
@@ -288,21 +275,19 @@ public class QuickActions {
                 ContentResolver contentResolver = c.getContentResolver();
                 Cursor managedCursor = contentResolver.query(calendars, projection, null, null, null);
 
-                if (managedCursor.moveToFirst())
-                {
+                if (managedCursor.moveToFirst()) {
                     String calName;
                     String calID;
                     int cont = 0;
                     int nameCol = managedCursor.getColumnIndex(projection[1]);
                     int idCol = managedCursor.getColumnIndex(projection[0]);
-                    Hashtable<String,String> calendarIdTable = new Hashtable<>();
+                    Hashtable<String, String> calendarIdTable = new Hashtable<>();
 
-                    do
-                    {
+                    do {
                         calName = managedCursor.getString(nameCol);
                         calID = managedCursor.getString(idCol);
                         Log.v(TAG, "CalendarName:" + calName + " ,id:" + calID);
-                        calendarIdTable.put(calName,calID);
+                        calendarIdTable.put(calName, calID);
                         cont++;
                     } while (managedCursor.moveToNext());
                     managedCursor.close();
@@ -316,18 +301,15 @@ public class QuickActions {
 
         }
 
-        public static boolean haveCalendarReadWritePermissions(Activity caller)
-        {
+        public static boolean haveCalendarReadWritePermissions(Activity caller) {
             int permissionCheck = ContextCompat.checkSelfPermission(caller,
                     Manifest.permission.READ_CALENDAR);
 
-            if (permissionCheck== PackageManager.PERMISSION_GRANTED)
-            {
+            if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 permissionCheck = ContextCompat.checkSelfPermission(caller,
                         Manifest.permission.WRITE_CALENDAR);
 
-                if (permissionCheck== PackageManager.PERMISSION_GRANTED)
-                {
+                if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                     return true;
                 }
             }

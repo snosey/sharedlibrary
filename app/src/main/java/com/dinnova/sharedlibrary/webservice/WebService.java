@@ -147,7 +147,7 @@ public class WebService extends Request<String> {
                 if (params.get(key) instanceof JSONObject || params.get(key) instanceof JSONArray) {
                     fileParams.addPart(key, new StringBody(params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8")));
                 } else {
-                    fileParams.addTextBody(key, params.get(key).toString());
+                    fileParams.addTextBody(key, params.get(key).toString(),ContentType.TEXT_PLAIN.withCharset("UTF-8"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
