@@ -41,28 +41,23 @@ import cz.msebera.android.httpclient.entity.mime.content.StringBody;
  */
 
 public class WebService2 extends Request<String> {
-    public static final String Message = "Message";
     @SuppressLint("StaticFieldLeak")
     private static Context activity;
     public static String BASE_URL;
     private ProgressDialog progress = null;
-    private Object params;
+    private Object paramsObject;
     private Response.Listener<CustomResponse> mListener;
     private boolean showLoading;
     private boolean messageAlert;
     private HashMap<String, File> fileList;
     private boolean isMultiPart;
-    private boolean isJsonObject;
-    HttpEntity httpEntity;
+    private HttpEntity httpEntity;
 
 
-    public static String getResponseData(String json) {
-        return json;
-    }
 
     @SuppressLint("NewApi")
-    public WebService2(final Context activity, HashMap<String, File> fileList, boolean isMultiPart, int method, final String url, UrlData urlData, final boolean showLoading,
-                       boolean messageAlert, Object paramsObject, boolean isJsonObject, Response.Listener<CustomResponse> listener) {
+    public WebService2(final Context activity, HashMap<String, File> fileList, boolean isMultiPart,   int method, final String url, UrlData urlData, final boolean showLoading,
+                       boolean messageAlert, Object paramsObject, Response.Listener<CustomResponse> listener) {
         super(method, BASE_URL + url + urlData.get(), new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -87,25 +82,23 @@ public class WebService2 extends Request<String> {
             }
         });
         WebService2.activity = activity;
-
         this.fileList = fileList;
         this.isMultiPart = isMultiPart;
         mListener = listener;
-        this.isJsonObject = isJsonObject;
         this.messageAlert = messageAlert;
         this.showLoading = showLoading;
-        this.params = paramsObject;
+        this.paramsObject = paramsObject;
         Log.e("API/URL", BASE_URL + url + urlData.get());
         this.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        progress = new ProgressDialog(activity);
-        progress.setMessage(StaticTextAlerts.loadingAlert);
-        progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
 
-        if (activity != null && showLoading) {
+        if (activity != null && this.showLoading) {
+            progress = new ProgressDialog(activity);
+            progress.setMessage(StaticTextAlerts.loadingAlert);
+            progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
             Log.e("ProgressShow", "true");
             try {
                 progress.show();
@@ -123,26 +116,25 @@ public class WebService2 extends Request<String> {
                 it.remove(); // avoids a ConcurrentModificationException
             }
         }
-        JSONObject params = new JSONObject();
-        if (isJsonObject)
-            params = (JSONObject) this.params;
 
-        Iterator<String> keys = params.keys();
 
-        while (keys.hasNext() && this.isMultiPart) {
-            String key = keys.next();
-            try {
-                Log.e("MULTIPART/", key + ":- " + params.get(key).toString());
-                if (params.get(key) instanceof JSONObject || params.get(key) instanceof JSONArray) {
-                    fileParams.addPart(key, new StringBody(params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8")));
-                } else {
-                    fileParams.addTextBody(key, params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8"));
+        if (this.isMultiPart) {
+            JSONObject params = (JSONObject) this.paramsObject;
+            Iterator<String> keys = params.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                try {
+                    Log.e("MULTIPART/", key + ":- " + params.get(key).toString());
+                    if (params.get(key) instanceof JSONObject || params.get(key) instanceof JSONArray) {
+                        fileParams.addPart(key, new StringBody(params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8")));
+                    } else {
+                        fileParams.addTextBody(key, params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
-
         httpEntity = fileParams.build();
 
         Volley.newRequestQueue(activity).add(this);
@@ -168,11 +160,11 @@ public class WebService2 extends Request<String> {
             CustomResponse customResponse = new CustomResponse();
             customResponse.json = parsed;
             try {
-                if (response.headers.containsKey("x-pagination"))
-                    customResponse.pagination = (Pagination) new Pagination().jsonToModel(response.headers.get("x-pagination"));
+                if (response.headers.containsKey("X-Pagination"))
+                    customResponse.pagination = (Pagination) new Pagination().jsonToModel(response.headers.get("X-Pagination"));
 
-                if (response.headers.containsKey("x-status"))
-                    customResponse.status = (Status) new Status().jsonToModel(response.headers.get("x-status"));
+                if (response.headers.containsKey("X-Status"))
+                    customResponse.status = (Status) new Status().jsonToModel(response.headers.get("X-Status"));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -256,7 +248,7 @@ public class WebService2 extends Request<String> {
     @Override
     public byte[] getBody() {
         if (this.isMultiPart || fileList != null) {
-            Log.e("params:", params.toString());
+            Log.e("paramsObject:", paramsObject.toString());
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             try {
                 httpEntity.writeTo(bos);
@@ -265,10 +257,10 @@ public class WebService2 extends Request<String> {
             }
             return bos.toByteArray();
         } else {
-            Log.e("params:", params.toString());
-            int length = params.toString().getBytes().length;
+            Log.e("paramsObject:", paramsObject.toString());
+            int length = paramsObject.toString().getBytes().length;
             ByteArrayOutputStream bos = new ByteArrayOutputStream(length);
-            bos.write(params.toString().getBytes(), 0, length);
+            bos.write(paramsObject.toString().getBytes(), 0, length);
             return bos.toByteArray();
         }
     }
