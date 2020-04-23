@@ -10,7 +10,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.dinnova.sharedlibrary.R;
-import com.dinnova.sharedlibrary.ui.CustomTextViewBold;
+import com.dinnova.sharedlibrary.ui.CustomTextView;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.viewHolder> {
 
 
     class viewHolder extends RecyclerView.ViewHolder {
-        CustomTextViewBold text;
+        CustomTextView text;
         AppCompatImageView image;
 
         viewHolder(View v) {

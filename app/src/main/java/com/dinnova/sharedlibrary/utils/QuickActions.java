@@ -24,6 +24,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.dinnova.sharedlibrary.image.FullScreen;
+import com.dinnova.sharedlibrary.utils.views.CustomWebView;
 import com.dinnova.sharedlibrary.webservice.WebService;
 
 import java.net.URLEncoder;
@@ -152,7 +153,7 @@ public class QuickActions {
     }
 
     public void openUrlWebView(String webviewUrl, FragmentActivity context) {
-        Intent intent = new Intent(context, WebView.class);
+        Intent intent = new Intent(context, CustomWebView.class);
         intent.putExtra(WebService.Data, webviewUrl);
         context.startActivity(intent);
     }

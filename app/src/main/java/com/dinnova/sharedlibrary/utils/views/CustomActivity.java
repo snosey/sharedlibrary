@@ -1,5 +1,6 @@
-package com.dinnova.sharedlibrary.utils;
+package com.dinnova.sharedlibrary.utils.views;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -36,13 +37,13 @@ public class CustomActivity extends FragmentActivity {
         return resources;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+    @SuppressLint("NewApi")
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(LocaleHelper.onAttach(base));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
+    @SuppressLint("NewApi")
     public void changeLang(String languageCode,boolean recreate) {
         LocaleHelper.persist(this, languageCode);
         if(recreate)
@@ -50,8 +51,8 @@ public class CustomActivity extends FragmentActivity {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    public void changeLang(String languageCode,Intent intent) {
+    @SuppressLint("NewApi")
+    public void changeLang(String languageCode, Intent intent) {
         LocaleHelper.persist(this, languageCode);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);

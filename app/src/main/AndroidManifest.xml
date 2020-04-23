@@ -3,7 +3,7 @@
     package="com.dinnova.sharedlibrary">
 
     <application>
-        <activity android:name=".utils.WebView" />
+        <activity android:name=".utils.views.CustomWebView" />
     </application>
 
 </manifest>

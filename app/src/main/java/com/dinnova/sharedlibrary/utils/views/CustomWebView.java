@@ -1,4 +1,4 @@
-package com.dinnova.sharedlibrary.utils;
+package com.dinnova.sharedlibrary.utils.views;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -15,13 +15,14 @@ import android.webkit.WebViewClient;
 import androidx.annotation.RequiresApi;
 
 import com.dinnova.sharedlibrary.R;
+import com.dinnova.sharedlibrary.utils.StaticTextAlerts;
 import com.dinnova.sharedlibrary.webservice.WebService;
 
 /**
  * Created by Snosey on 4/15/2018.
  */
 
-public class WebView extends Activity {
+public class CustomWebView extends Activity {
     android.webkit.WebView webview;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
