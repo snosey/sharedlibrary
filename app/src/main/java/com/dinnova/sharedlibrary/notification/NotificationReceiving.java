@@ -15,11 +15,11 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        notificationRecieved(remoteMessage, CustomApplication.notificationListener);
+        notificationRecieved(remoteMessage);
     }
 
 
-    private void notificationRecieved(RemoteMessage remoteMessage, NotificationListener notificationListener) {
+    private void notificationRecieved(RemoteMessage remoteMessage) {
         Log.e("NotificationId", remoteMessage.getMessageId() + "");
         try {
             JSONObject jsonObject = new JSONObject();
@@ -30,8 +30,8 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 mChannel = new NotificationChannel(notificationModel.NotificationTypeModel.Id + "", notificationModel.NotificationTypeModel.Name, NotificationManager.IMPORTANCE_HIGH);
             }
-            NotificationDisplay notificationDisplay = new NotificationDisplay(this, notificationModel, mChannel, notificationListener);
-            notificationListener.notificationReceived(notificationModel, notificationDisplay);
+            NotificationDisplay notificationDisplay = new NotificationDisplay(this, notificationModel, mChannel);
+            CustomApplication.notificationListener.notificationReceived(notificationModel, notificationDisplay);
 
         } catch (Exception e) {
             e.printStackTrace();

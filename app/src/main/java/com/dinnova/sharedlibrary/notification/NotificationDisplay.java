@@ -9,6 +9,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
+import com.dinnova.sharedlibrary.utils.views.CustomApplication;
 import com.dinnova.sharedlibrary.webservice.WebService;
 
 import java.util.Iterator;
@@ -17,14 +18,12 @@ import java.util.List;
 public class NotificationDisplay {
     private Context context;
     private NotificationModel notificationModel;
-    private NotificationListener notificationListener;
     public NotificationChannel mChannel;
 
-    NotificationDisplay(Context context, NotificationModel notificationModel, NotificationChannel mChannel, NotificationListener notificationListener) {
+    NotificationDisplay(Context context, NotificationModel notificationModel, NotificationChannel mChannel) {
         this.context = context;
         this.mChannel = mChannel;
         this.notificationModel = notificationModel;
-        this.notificationListener = notificationListener;
     }
 
     public void showNotification(int logo, List<NotificationActionModel> actions) {
@@ -49,7 +48,7 @@ public class NotificationDisplay {
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        notificationListener.notificationDisplayed(notificationModel);
+        CustomApplication.notificationListener.notificationDisplayed(notificationModel);
         notificationManager.notify(notificationModel.TargetIdInt, notificationBuilder.build());
     }
 
@@ -57,7 +56,6 @@ public class NotificationDisplay {
     private PendingIntent getPendingIntent(String action) {
         Intent intent = new Intent(context, NotificationClickReceiver.class);
         intent.putExtra(WebService.Data, notificationModel);
-        intent.putExtra("listener", notificationListener);
         intent.setAction(action);
         return PendingIntent.getBroadcast(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
