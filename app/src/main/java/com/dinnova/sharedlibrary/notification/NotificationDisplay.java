@@ -27,7 +27,7 @@ public class NotificationDisplay {
         this.notificationListener = notificationListener;
     }
 
-    void showNotification(int logo, List<NotificationActionModel> actions) {
+    public void showNotification(int logo, List<NotificationActionModel> actions) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = notificationModel.NotificationTypeModel.Id + "";
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
