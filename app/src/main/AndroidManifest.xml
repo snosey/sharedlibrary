@@ -4,6 +4,8 @@
 
     <application>
         <activity android:name=".utils.views.CustomWebView" />
+
+        <receiver android:name=".notification.NotificationClickReceiver" />
     </application>
 
 </manifest>
