@@ -22,9 +22,7 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
     private void notificationRecieved(RemoteMessage remoteMessage) {
         Log.e("NotificationId", remoteMessage.getMessageId() + "");
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(WebService.Data, new JSONObject(remoteMessage.getData()));
-            NotificationModel notificationModel = (NotificationModel) new NotificationModel().jsonToModel(jsonObject.toString());
+            NotificationModel notificationModel = (NotificationModel) new NotificationModel().jsonToModel(new JSONObject(remoteMessage.getData()).toString());
             notificationModel.convertData();
             NotificationChannel mChannel = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {

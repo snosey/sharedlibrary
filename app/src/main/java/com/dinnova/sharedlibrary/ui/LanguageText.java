@@ -1,6 +1,6 @@
 package com.dinnova.sharedlibrary.ui;
 
-import com.dinnova.sharedlibrary.webservice.JsonConverter;
+import com.dinnova.sharedlibrary.webservice.JsonConverter2;
 import com.google.gson.annotations.Expose;
 
 import org.json.JSONException;
@@ -31,11 +31,12 @@ public class LanguageText {
             return "";
     }
 
-    private static class LanguageModel extends JsonConverter {
+    private static class LanguageModel extends JsonConverter2 {
         @Expose
         public String Key;
         @Expose
         public String Value;
     }
+
 
 }

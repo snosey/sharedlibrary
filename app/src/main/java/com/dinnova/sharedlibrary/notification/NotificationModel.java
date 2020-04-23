@@ -1,13 +1,14 @@
 package com.dinnova.sharedlibrary.notification;
 
 import com.dinnova.sharedlibrary.webservice.JsonConverter;
+import com.dinnova.sharedlibrary.webservice.JsonConverter2;
 import com.dinnova.sharedlibrary.webservice.WebService;
 import com.google.gson.annotations.Expose;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class NotificationModel extends JsonConverter {
+public class NotificationModel extends JsonConverter2 {
 
     @Expose
     public NotificationType NotificationTypeModel;
@@ -30,9 +31,7 @@ public class NotificationModel extends JsonConverter {
     public void convertData() {
         TargetIdInt = Integer.parseInt(TargetId);
         try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put(WebService.Data, new JSONObject(NotificationType));
-            NotificationTypeModel = (com.dinnova.sharedlibrary.notification.NotificationType) new NotificationType().jsonToModel(jsonObject.toString());
+            NotificationTypeModel = (com.dinnova.sharedlibrary.notification.NotificationType) new NotificationType().jsonToModel(NotificationType);
         } catch (JSONException e) {
             e.printStackTrace();
         }

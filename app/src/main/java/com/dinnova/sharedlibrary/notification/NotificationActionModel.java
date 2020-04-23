@@ -1,13 +1,10 @@
 package com.dinnova.sharedlibrary.notification;
 
 import com.dinnova.sharedlibrary.webservice.JsonConverter;
-import com.dinnova.sharedlibrary.webservice.WebService;
+import com.dinnova.sharedlibrary.webservice.JsonConverter2;
 import com.google.gson.annotations.Expose;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class NotificationActionModel extends JsonConverter {
+public class NotificationActionModel extends JsonConverter2 {
 
     @Expose
     public String id;
