@@ -54,9 +54,8 @@ public class WebService2 extends Request<String> {
     private HttpEntity httpEntity;
 
 
-
     @SuppressLint("NewApi")
-    public WebService2(final Context activity, HashMap<String, File> fileList, boolean isMultiPart,   int method, final String url, UrlData urlData, final boolean showLoading,
+    public WebService2(final Context activity, HashMap<String, File> fileList, boolean isMultiPart, int method, final String url, UrlData urlData, final boolean showLoading,
                        boolean messageAlert, Object paramsObject, Response.Listener<CustomResponse> listener) {
         super(method, BASE_URL + url + urlData.get(), new Response.ErrorListener() {
             @Override
@@ -184,8 +183,11 @@ public class WebService2 extends Request<String> {
 
 
     public class CustomResponse extends JsonConverter2 {
+        @Expose
         public Pagination pagination;
+        @Expose
         public Status status;
+        @Expose
         public String json;
     }
 
