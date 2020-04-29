@@ -1,4 +1,4 @@
-package com.dinnova.sharedlibrary.webservice;
+package com.dinnova.sharedlibrary.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageInfo;

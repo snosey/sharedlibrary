@@ -3,4 +3,16 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+
+    <color name="grey">#CFCFCF</color>@color/colorAccent
+    <color name="black_fat7">#2b5b5a</color>
+    <color name="black_8am2">#23282D</color>
+    <color name="whiteDark">#F8FAFA</color>
+    <color name="white">#F8FAFA</color>
+    <color name="black_shfaf">#df000000</color>
+    <color name="black_shfaf_awi">#40000000</color>
+    <color name="white_shfaf">#80FFFFFF</color>
+
+
 </resources>
