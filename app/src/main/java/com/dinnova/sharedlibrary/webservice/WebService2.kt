@@ -28,7 +28,7 @@ class WebService2(private val activity: Context,
                   private val fileList: HashMap<String, File> = HashMap(),
                   private val isMultiPart: Boolean = false,
                   method: Int, url: String, urlData: UrlData = UrlData(),
-                  private val showLoading: Boolean = true,
+                  private val indicator: Indicator ,
                   private val messageAlert: Boolean = false,
                   private val paramsObject: Any = JSONObject(),
                   private val mListener: Response.Listener<WebServiceHelper.CustomResponse>) :
@@ -79,8 +79,8 @@ class WebService2(private val activity: Context,
             httpEntity = fileParams.build()
         }
 
-        if(showLoading)
-            WebServiceSingleton.getIndicator().showIndicator()
+        if(indicator.isVisible())
+            indicator.showIndicator()
 
         Volley.newRequestQueue(activity).add(this)
     }
@@ -91,8 +91,8 @@ class WebService2(private val activity: Context,
     }
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<String> {
-        if(showLoading)
-            WebServiceSingleton.getIndicator().hideIndicator()
+        if(indicator.isVisible())
+            indicator.hideIndicator()
 
         if (response.statusCode == 200) {
             val parsed = String(response.data)
