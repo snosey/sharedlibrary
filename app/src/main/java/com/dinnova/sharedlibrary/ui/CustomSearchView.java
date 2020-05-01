@@ -32,7 +32,9 @@ public class CustomSearchView extends SearchView {
         customAddition.setCustomHint(customAddition.getCustomStringById(R.styleable.CustomSearchView_customHint));
         customAddition.setCustomColor(R.styleable.CustomSearchView_textColor, R.styleable.CustomSearchView_hintColor);
         ImageView searchIcon = findViewById(R.id.search_button);
+        ImageView closeIcon = findViewById(R.id.search_close_btn);
         searchIcon.setColorFilter(customAddition.typedArray.getColor(R.styleable.CustomSearchView_searchColor,getContext().getResources().getColor(R.color.black_8am2)), android.graphics.PorterDuff.Mode.MULTIPLY);
+        closeIcon.setColorFilter(customAddition.typedArray.getColor(R.styleable.CustomSearchView_searchColor,getContext().getResources().getColor(R.color.black_8am2)), android.graphics.PorterDuff.Mode.MULTIPLY);
 
     }
 

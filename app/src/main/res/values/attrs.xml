@@ -23,6 +23,7 @@
 
     <declare-styleable name="CustomSearchView">
         <attr name="customFont" />
+        <attr name="customHint" />
         <attr name="customText" />
         <attr name="hintColor" format="color" />
         <attr name="textColor" format="color" />
