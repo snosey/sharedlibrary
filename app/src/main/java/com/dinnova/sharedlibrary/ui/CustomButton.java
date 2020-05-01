@@ -39,6 +39,7 @@ public class CustomButton extends AppCompatButton {
         if (!enabled) {
             CustomButton.this.setTextColor(ContextCompat.getColor(getContext(), textColor));
             CustomButton.this.setBackgroundTintList(getContext().getResources().getColorStateList(backgroundColor));
+            customAddition.recycleView();
         }
     }
 }

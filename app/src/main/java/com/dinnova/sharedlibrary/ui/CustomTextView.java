@@ -21,6 +21,7 @@ public class CustomTextView extends AppCompatTextView {
     public CustomTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         customAddition = new CustomAddition(context, this, attrs, R.styleable.CustomTextView, R.styleable.CustomTextView_customText, R.styleable.CustomTextView_customFont);
+        customAddition.recycleView();
     }
 
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {

@@ -21,6 +21,7 @@ public class CustomRadioButton extends androidx.appcompat.widget.AppCompatRadioB
     public CustomRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         customAddition = new CustomAddition(context, this, attrs, R.styleable.CustomRadioButton, R.styleable.CustomRadioButton_customText, R.styleable.CustomRadioButton_customFont);
+        customAddition.recycleView();
     }
 
     public CustomRadioButton(Context context, AttributeSet attrs, int defStyle) {

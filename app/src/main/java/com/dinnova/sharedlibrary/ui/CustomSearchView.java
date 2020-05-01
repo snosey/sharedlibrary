@@ -18,18 +18,21 @@ public class CustomSearchView extends SearchView {
 
     public CustomAddition customAddition;
 
-    public ImageView searchIcon, closeIcon;
-
     public CustomSearchView(Context context) {
         super(context);
     }
 
     public CustomSearchView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        searchIcon = findViewById(R.id.search_button);
-        closeIcon = findViewById(R.id.search_close_btn);
+        ImageView searchIcon = findViewById(R.id.search_button);
+        ImageView closeIcon = findViewById(R.id.search_close_btn);
         EditText searchEditText = findViewById(R.id.search_src_text);
         customAddition = new CustomAddition(context, searchEditText, attrs, R.styleable.CustomSearchView, R.styleable.CustomSearchView_customText, R.styleable.CustomSearchView_customFont);
+        customAddition.setCustomHint(customAddition.getCustomStringById(R.styleable.CustomSearchView_customHint));
+        customAddition.setCustomColor(R.styleable.CustomSearchView_textColor, R.styleable.CustomSearchView_hintColor);
+        searchIcon.setColorFilter(customAddition.typedArray.getColor(R.styleable.CustomSearchView_searchColor,getContext().getResources().getColor(R.color.black_8am2)), android.graphics.PorterDuff.Mode.MULTIPLY);
+        closeIcon.setColorFilter(customAddition.typedArray.getColor(R.styleable.CustomSearchView_searchColor,getContext().getResources().getColor(R.color.black_8am2)), android.graphics.PorterDuff.Mode.MULTIPLY);
+        customAddition.recycleView();
     }
 
 

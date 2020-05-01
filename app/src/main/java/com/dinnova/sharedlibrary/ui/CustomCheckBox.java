@@ -24,6 +24,7 @@ public class CustomCheckBox extends AppCompatCheckBox {
     public CustomCheckBox(Context context, AttributeSet attrs) {
         super(context, attrs);
         customAddition = new CustomAddition(context, this, attrs, R.styleable.CustomCheckBox, R.styleable.CustomCheckBox_customText, R.styleable.CustomCheckBox_customFont);
+        customAddition.recycleView();
     }
 
     public CustomCheckBox(Context context, AttributeSet attrs, int defStyleAttr) {

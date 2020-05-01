@@ -24,6 +24,7 @@ public class CustomEditText extends AppCompatEditText {
         super(context, attrs);
         customAddition = new CustomAddition(context, this, attrs, R.styleable.CustomEditText, R.styleable.CustomEditText_customText, R.styleable.CustomEditText_customFont);
         customAddition.setCustomHint(customAddition.getCustomStringById(R.styleable.CustomEditText_customHint));
+        customAddition.recycleView();
     }
 
 

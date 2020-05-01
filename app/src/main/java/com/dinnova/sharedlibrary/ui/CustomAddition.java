@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.dinnova.sharedlibrary.R;
 
 public class CustomAddition {
-    public final TypedArray typedArray;
+    public TypedArray typedArray;
     private Context context;
     private int attrCustomText;
     private int attrCustomFont;
@@ -39,8 +39,6 @@ public class CustomAddition {
             text = LanguageText.get(typedArray.getString(attrCustomText));
         } catch (Exception ignored) {
 
-        } finally {
-            typedArray.recycle();
         }
         if (text.isEmpty()) {
             return;
@@ -56,8 +54,6 @@ public class CustomAddition {
             text = LanguageText.get(key);
         } catch (Exception ignored) {
 
-        } finally {
-            typedArray.recycle();
         }
         if (text.isEmpty()) {
             return;
@@ -72,8 +68,6 @@ public class CustomAddition {
             textView.setHintTextColor(typedArray.getColor(hintColor, context.getResources().getColor(R.color.black_8am2)));
         } catch (Exception ignored) {
 
-        } finally {
-            typedArray.recycle();
         }
     }
 
@@ -97,6 +91,15 @@ public class CustomAddition {
                 Typeface face = Typeface.createFromAsset(context.getAssets(), font);
                 textView.setTypeface(face);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void recycleView() {
+        try {
+            if (typedArray != null)
+                typedArray.recycle();
         } catch (Exception e) {
             e.printStackTrace();
         }
