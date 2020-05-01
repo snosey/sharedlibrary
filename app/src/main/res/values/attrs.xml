@@ -16,9 +16,19 @@
 
 
     <declare-styleable name="CustomEditText">
-        <attr name="customHint" />
+        <attr name="customHint" format="string"/>
         <attr name="customFont" />
         <attr name="customText" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomSearchView">
+
+        <attr name="customHint" format="string"/>
+        <attr name="customFont" />
+        <attr name="customText" />
+        <attr name="hintColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="searchColor" format="color"/>
     </declare-styleable>
 
 

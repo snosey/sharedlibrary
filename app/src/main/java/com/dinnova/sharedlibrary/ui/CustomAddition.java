@@ -9,8 +9,10 @@ import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.dinnova.sharedlibrary.R;
+
 public class CustomAddition {
-    private final TypedArray typedArray;
+    public final TypedArray typedArray;
     private Context context;
     private int attrCustomText;
     private int attrCustomFont;
@@ -61,6 +63,18 @@ public class CustomAddition {
             return;
         }
         textView.setHint(text);
+    }
+
+    @SuppressLint("NewApi")
+    void setCustomColor(int textColor, int hintColor) {
+        try {
+            textView.setTextColor(typedArray.getColor(textColor, context.getResources().getColor(R.color.black_8am2)));
+            textView.setHintTextColor(typedArray.getColor(hintColor, context.getResources().getColor(R.color.black_8am2)));
+        } catch (Exception ignored) {
+
+        } finally {
+            typedArray.recycle();
+        }
     }
 
     public void setHtmlText(String text) {

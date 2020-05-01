@@ -15,6 +15,6 @@
         android:layout_width="@dimen/dimen_VeryVerySmall"
         android:layout_height="@dimen/dimen_VeryVerySmall"
         android:layout_margin="@dimen/margin_Medium"
-        android:src="@drawable/com_facebook_close" />
+        android:src="@android:drawable/ic_menu_close_clear_cancel" />
 
 </RelativeLayout>

@@ -5,8 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.Volley
-import com.dinnova.sharedlibrary.webservice.WebService.BASE_URL
+import com.android.volley.toolbox.Volley 
 import cz.msebera.android.httpclient.HttpEntity
 import cz.msebera.android.httpclient.entity.ContentType
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder
@@ -25,10 +24,10 @@ import java.io.UnsupportedEncodingException
  */
 
 class WebService2(private val activity: Context,
-                  private val fileList: HashMap<String, File> = HashMap(),
+                  fileList: HashMap<String, File> = HashMap(),
                   private val isMultiPart: Boolean = false,
                   method: Int, url: String, urlData: UrlData = UrlData(),
-                  private val indicator: Indicator ,
+                  private val indicator: Indicator,
                   private val messageAlert: Boolean = false,
                   private val paramsObject: Any = JSONObject(),
                   private val mListener: Response.Listener<WebServiceHelper.CustomResponse>) :
@@ -49,7 +48,7 @@ class WebService2(private val activity: Context,
 
 
     init {
-        Log.e("API/URL", BASE_URL + url + urlData.get())
+        Log.e("API/URL", WebServiceSingleton.getBaseURL()  + url + urlData.get())
         this.retryPolicy = DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
@@ -79,7 +78,7 @@ class WebService2(private val activity: Context,
             httpEntity = fileParams.build()
         }
 
-        if(indicator.isVisible())
+        if (indicator.isVisible())
             indicator.showIndicator()
 
         Volley.newRequestQueue(activity).add(this)
@@ -91,7 +90,7 @@ class WebService2(private val activity: Context,
     }
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<String> {
-        if(indicator.isVisible())
+        if (indicator.isVisible())
             indicator.hideIndicator()
 
         if (response.statusCode == 200) {
@@ -140,17 +139,17 @@ class WebService2(private val activity: Context,
     }
 
     override fun getBodyContentType(): String {
-        if (this.isMultiPart || fileList != null) {
+        return if (isMultiPart) {
             Log.e("requestType", "multi/part")
-            return httpEntity.contentType.value
+            httpEntity.contentType.value
         } else {
             Log.e("requestType", "application/json")
-            return "application/json"
+            "application/json"
         }
     }
 
     override fun getBody(): ByteArray {
-        if (this.isMultiPart || fileList != null) {
+        return if (isMultiPart) {
             Log.e("paramsObject:", paramsObject.toString())
             val bos = ByteArrayOutputStream()
             try {
@@ -158,14 +157,13 @@ class WebService2(private val activity: Context,
             } catch (e: IOException) {
                 e.printStackTrace()
             }
-
-            return bos.toByteArray()
+            bos.toByteArray()
         } else {
             Log.e("paramsObject:", paramsObject.toString())
             val length = paramsObject.toString().toByteArray().size
             val bos = ByteArrayOutputStream(length)
             bos.write(paramsObject.toString().toByteArray(), 0, length)
-            return bos.toByteArray()
+            bos.toByteArray()
         }
     }
 

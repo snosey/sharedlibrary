@@ -5,9 +5,6 @@ package com.dinnova.sharedlibrary.ui;
  */
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Typeface;
-import android.text.Html;
 import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -15,7 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import com.dinnova.sharedlibrary.R;
 
 public class CustomTextView extends AppCompatTextView {
-    public  CustomAddition customAddition;
+    public CustomAddition customAddition;
 
     public CustomTextView(Context context) {
         super(context);
@@ -28,7 +25,7 @@ public class CustomTextView extends AppCompatTextView {
 
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-       
+
     }
 
 }
