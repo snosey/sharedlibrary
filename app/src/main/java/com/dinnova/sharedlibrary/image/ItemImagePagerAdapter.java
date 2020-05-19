@@ -18,16 +18,10 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 public class ItemImagePagerAdapter extends PagerAdapter {
-    LayoutInflater mLayoutInflater;
-    FragmentActivity fragmentActivity;
-    List<ImgModel> imgModels;
+    public List<ImgModel> imgModels;
 
     public ItemImagePagerAdapter(List<ImgModel> imgUrl, FragmentActivity fragmentActivity) {
         this.imgModels = imgUrl;
-        this.fragmentActivity = fragmentActivity;
-        mLayoutInflater = (LayoutInflater) fragmentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-
     }
 
     @Override
@@ -40,7 +34,7 @@ public class ItemImagePagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    @Override
+ /*   @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         View itemView = mLayoutInflater.inflate(R.layout.image_full_row, container, false);
         final PhotoView imageView = itemView.findViewById(R.id.image);
@@ -62,7 +56,7 @@ public class ItemImagePagerAdapter extends PagerAdapter {
         container.addView(itemView);
 
         return itemView;
-    }
+    }*/
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
