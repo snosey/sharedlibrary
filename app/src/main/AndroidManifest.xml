@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dinnova.sharedlibrary">
 
-    <application>
+    <application
+        android:name=".utils.views.CustomApplication">
         <activity android:name=".utils.views.CustomWebView" />
 
         <receiver android:name=".notification.NotificationClickReceiver" />
