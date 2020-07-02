@@ -90,7 +90,7 @@ public class FacebookAuth {
                         exception.printStackTrace();
                     }
                 });
-        LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "user_friends"));
+ //       LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList("public_profile", "user_friends"));
     }
 
     public void activityResult(int requestCode, int resultCode, Intent data) {

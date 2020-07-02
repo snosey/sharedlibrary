@@ -24,6 +24,11 @@ public class CustomTextView extends AppCompatTextView {
         customAddition.recycleView();
     }
 
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        super.setText(text, type);
+    }
+
     public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 

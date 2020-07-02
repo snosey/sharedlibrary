@@ -1,13 +1,16 @@
 package com.dinnova.sharedlibrary.utils.views;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.PermissionRequest;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebViewClient;
@@ -24,6 +27,33 @@ import com.dinnova.sharedlibrary.webservice.WebService;
 
 public class CustomWebView extends Activity {
     android.webkit.WebView webview;
+
+
+    private ValueCallback<Uri[]> mUploadMessage;
+    private final static int FILECHOOSER_RESULTCODE = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        // manejo de seleccion de archivo
+        if (requestCode == FILECHOOSER_RESULTCODE) {
+
+            if (null == mUploadMessage || intent == null || resultCode != RESULT_OK) {
+                return;
+            }
+
+            Uri[] result = null;
+            String dataString = intent.getDataString();
+
+            if (dataString != null) {
+                result = new Uri[]{Uri.parse(dataString)};
+            }
+
+            mUploadMessage.onReceiveValue(result);
+            mUploadMessage = null;
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -51,6 +81,26 @@ public class CustomWebView extends Activity {
         webview.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         webview.setWebChromeClient(new WebChromeClient() {
+
+
+            @Override
+            public boolean onShowFileChooser(android.webkit.WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+
+                // asegurar que no existan callbacks
+                if (mUploadMessage != null) {
+                    mUploadMessage.onReceiveValue(null);
+                }
+
+                mUploadMessage = filePathCallback;
+
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("*/*"); // set MIME type to filter
+
+                CustomWebView.this.startActivityForResult(Intent.createChooser(i, "File Chooser"), CustomWebView.FILECHOOSER_RESULTCODE);
+
+                return true;
+            }
 
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override

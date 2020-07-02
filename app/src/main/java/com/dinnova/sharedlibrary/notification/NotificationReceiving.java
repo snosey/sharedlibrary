@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.util.Log;
 
 import com.dinnova.sharedlibrary.utils.views.CustomApplication;
-import com.dinnova.sharedlibrary.webservice.WebService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONObject;
@@ -21,19 +20,35 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
 
     private void notificationRecieved(RemoteMessage remoteMessage) {
         Log.e("NotificationId", remoteMessage.getMessageId() + "");
+        NotificationModel notificationModel;
+        NotificationChannel mChannel = null;
         try {
-            NotificationModel notificationModel = (NotificationModel) new NotificationModel().jsonToModel(new JSONObject(remoteMessage.getData()).toString());
+            notificationModel = (NotificationModel) new NotificationModel().jsonToModel(new JSONObject(remoteMessage.getData()).toString());
             notificationModel.convertData();
-            NotificationChannel mChannel = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                mChannel = new NotificationChannel(notificationModel.NotificationTypeModel.Id + "", notificationModel.NotificationTypeModel.Name, NotificationManager.IMPORTANCE_HIGH);
-            }
-            NotificationDisplay notificationDisplay = new NotificationDisplay(this, notificationModel, mChannel);
-            CustomApplication.notificationListener.notificationReceived(notificationModel, notificationDisplay);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            notificationModel = getDefaultNotification(remoteMessage);
         }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            mChannel = new NotificationChannel(notificationModel.NotificationTypeModel.Id + "", notificationModel.NotificationTypeModel.Name, NotificationManager.IMPORTANCE_HIGH);
+        }
+        NotificationDisplay notificationDisplay = new NotificationDisplay(this, notificationModel, mChannel);
+        CustomApplication.notificationListener.notificationReceived(notificationModel, notificationDisplay);
+
+    }
+
+    private NotificationModel getDefaultNotification(RemoteMessage remoteMessage) {
+
+        NotificationModel notificationModel = new NotificationModel();
+        notificationModel.NotificationTypeModel = new NotificationType();
+        notificationModel.NotificationTypeModel.Id = 1;
+        notificationModel.TargetIdInt = 1;
+        notificationModel.NotificationTypeModel.Name = "Default";
+        if (remoteMessage.getNotification().getTitle() != null)
+            notificationModel.Title = remoteMessage.getNotification().getTitle();
+        else notificationModel.Title = "";
+        notificationModel.Body = remoteMessage.getNotification().getBody();
+        return notificationModel;
     }
 
 }
