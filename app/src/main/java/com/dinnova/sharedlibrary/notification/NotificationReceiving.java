@@ -41,8 +41,8 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
 
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.NotificationTypeModel = new NotificationType();
-        notificationModel.NotificationTypeModel.Id = 1;
-        notificationModel.TargetIdInt = 1;
+        notificationModel.NotificationTypeModel.Id = 0;
+        notificationModel.TargetIdInt = 0;
         notificationModel.NotificationTypeModel.Name = "Default";
         if (remoteMessage.getNotification().getTitle() != null)
             notificationModel.Title = remoteMessage.getNotification().getTitle();
