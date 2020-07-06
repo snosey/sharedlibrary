@@ -108,14 +108,15 @@ public class WebService extends Request<String> {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        progress = new ProgressDialog(activity);
-        progress.setMessage(StaticTextAlerts.loadingAlert);
-        progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
+        if (showLoading && !((FragmentActivity) activity).isDestroyed()) {
 
-        if (showLoading && !((FragmentActivity)activity).isDestroyed()) {
+
+            progress = new ProgressDialog(activity);
+            progress.setMessage(StaticTextAlerts.loadingAlert);
+            progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
             Log.e("ProgressShow", "true");
             try {
-                ((FragmentActivity)activity).runOnUiThread(new Runnable() {
+                ((FragmentActivity) activity).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         progress.show();
@@ -148,7 +149,7 @@ public class WebService extends Request<String> {
                 if (params.get(key) instanceof JSONObject || params.get(key) instanceof JSONArray) {
                     fileParams.addPart(key, new StringBody(params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8")));
                 } else {
-                    fileParams.addTextBody(key, params.get(key).toString(),ContentType.TEXT_PLAIN.withCharset("UTF-8"));
+                    fileParams.addTextBody(key, params.get(key).toString(), ContentType.TEXT_PLAIN.withCharset("UTF-8"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -163,13 +164,14 @@ public class WebService extends Request<String> {
 
     @Override
     protected VolleyError parseNetworkError(VolleyError volleyError) {
-        if(messageAlert)
-        ((FragmentActivity)activity).runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(activity, "Server error, please check internet connection and try again", Toast.LENGTH_LONG).show();
-            }
-        });
+        if (messageAlert)
+            ((FragmentActivity) activity).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity, "Server error, please check internet connection and try again", Toast.LENGTH_LONG).show();
+                }
+            });
+        if (showLoading)
         progress.dismiss();
         return volleyError;
     }
@@ -191,6 +193,8 @@ public class WebService extends Request<String> {
         String modifiedResponse = Response.success(parsed, HttpHeaderParser.parseCacheHeaders(response)).result;
         Log.e("modifiedResponse", modifiedResponse);
         try {
+
+            if (showLoading)
             progress.dismiss();
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,6 +205,8 @@ public class WebService extends Request<String> {
 
     @Override
     protected void deliverResponse(String response) {
+
+        if (showLoading)
         progress.dismiss();
         try {
             JSONObject jsonObject = new JSONObject(response);
