@@ -2,6 +2,7 @@ package com.dinnova.sharedlibrary.webservice;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,7 +46,7 @@ public class WebService extends Request<String> {
     public static final String Id = "Id";
     public static final String Message = "Message";
     @SuppressLint("StaticFieldLeak")
-    private static FragmentActivity activity;
+    private static Context activity;
     public static String BASE_URL;
     private ProgressDialog progress = null;
     private Object params;
@@ -67,7 +68,7 @@ public class WebService extends Request<String> {
         return "";
     }
 
-    public WebService(final FragmentActivity activity, HashMap<String, File> fileList, boolean isMultiPart, int method, final String url, UrlData urlData, final boolean showLoading,
+    public WebService(final Context activity, HashMap<String, File> fileList, boolean isMultiPart, int method, final String url, UrlData urlData, final boolean showLoading,
                       boolean messageAlert, Object paramsObject, boolean isJsonObject, Response.Listener<String> listener) {
         super(method, BASE_URL + url + urlData.get(), new Response.ErrorListener() {
             @Override
@@ -111,10 +112,10 @@ public class WebService extends Request<String> {
         progress.setMessage(StaticTextAlerts.loadingAlert);
         progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
 
-        if (showLoading && !activity.isDestroyed()) {
+        if (showLoading && !((FragmentActivity)activity).isDestroyed()) {
             Log.e("ProgressShow", "true");
             try {
-                activity.runOnUiThread(new Runnable() {
+                ((FragmentActivity)activity).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         progress.show();
@@ -162,7 +163,8 @@ public class WebService extends Request<String> {
 
     @Override
     protected VolleyError parseNetworkError(VolleyError volleyError) {
-        activity.runOnUiThread(new Runnable() {
+        if(messageAlert)
+        ((FragmentActivity)activity).runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(activity, "Server error, please check internet connection and try again", Toast.LENGTH_LONG).show();
