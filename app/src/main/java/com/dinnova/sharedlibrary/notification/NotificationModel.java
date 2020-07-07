@@ -10,6 +10,12 @@ import org.json.JSONObject;
 
 public class NotificationModel extends JsonConverter2 {
 
+    public static class channelTypeEnum{
+        public static int normal =1;
+        public static int call =2;
+    }
+    public int channelType;
+
     @Expose
     public NotificationType NotificationTypeModel;
 

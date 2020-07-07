@@ -1,9 +1,19 @@
 package com.dinnova.sharedlibrary.notification;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.media.AudioAttributes;
+import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
+import com.dinnova.sharedlibrary.R;
 import com.dinnova.sharedlibrary.utils.views.CustomApplication;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -36,6 +46,8 @@ public class NotificationReceiving extends com.google.firebase.messaging.Firebas
         CustomApplication.notificationListener.notificationReceived(notificationModel, notificationDisplay);
 
     }
+
+
 
     private NotificationModel getDefaultNotification(RemoteMessage remoteMessage) {
 
