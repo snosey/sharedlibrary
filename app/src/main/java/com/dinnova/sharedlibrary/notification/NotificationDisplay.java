@@ -35,7 +35,7 @@ public class NotificationDisplay {
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void showNotification(int logo, List<NotificationActionModel> actions) {
+    public void init(int logo, List<NotificationActionModel> actions) {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         String channelId = notificationModel.NotificationTypeModel.Id + "";
         notificationBuilder = new NotificationCompat.Builder(context, channelId)
