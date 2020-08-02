@@ -34,12 +34,16 @@ class WebService2(private val activity: Context,
                   private val mListener: Response.Listener<WebServiceHelper.CustomResponse>) :
         Request<String>(method, WebServiceSingleton.getBaseURL() + url + urlData.get(), Response.ErrorListener { error ->
             try {
+                if (indicator.isVisible())
+                    indicator.hideIndicator()
                 if (error.networkResponse != null && error.networkResponse.data != null) {
                     try {
                         Log.e("Error:", String(error.networkResponse.data))
                     } catch (e: UnsupportedEncodingException) {
                         e.printStackTrace()
                     }
+                } else {
+                    mListener.onResponse(null)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
