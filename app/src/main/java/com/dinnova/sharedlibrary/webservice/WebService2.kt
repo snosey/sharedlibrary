@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
-import com.android.volley.toolbox.Volley 
+import com.android.volley.toolbox.Volley
 import cz.msebera.android.httpclient.HttpEntity
 import cz.msebera.android.httpclient.entity.ContentType
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder
@@ -33,12 +33,16 @@ class WebService2(private val activity: Context,
                   private val paramsObject: Any = JSONObject(),
                   private val mListener: Response.Listener<WebServiceHelper.CustomResponse>) :
         Request<String>(method, WebServiceSingleton.getBaseURL() + url + urlData.get(), Response.ErrorListener { error ->
-            if (error.networkResponse.data != null) {
-                try {
-                    Log.e("Error:", String(error.networkResponse.data))
-                } catch (e: UnsupportedEncodingException) {
-                    e.printStackTrace()
+            try {
+                if (error.networkResponse != null && error.networkResponse.data != null) {
+                    try {
+                        Log.e("Error:", String(error.networkResponse.data))
+                    } catch (e: UnsupportedEncodingException) {
+                        e.printStackTrace()
+                    }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         })
 
@@ -49,7 +53,7 @@ class WebService2(private val activity: Context,
 
 
     init {
-        Log.e("API/URL", WebServiceSingleton.getBaseURL()  + url + urlData.get())
+        Log.e("API/URL", WebServiceSingleton.getBaseURL() + url + urlData.get())
         this.retryPolicy = DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
