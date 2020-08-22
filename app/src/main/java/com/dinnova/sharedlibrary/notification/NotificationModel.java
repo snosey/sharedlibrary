@@ -32,6 +32,9 @@ public class NotificationModel extends JsonConverter2 {
     public String Title;
 
     @Expose
+    public String Extra;
+
+    @Expose
     public String Body;
 
     public void convertData() {
