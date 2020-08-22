@@ -147,12 +147,12 @@ public class QuickActions {
 
     }
 
-    public void openUrlBrowser(String url, FragmentActivity context) {
+    public void openUrlBrowser(String url, Context context) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         context.startActivity(browserIntent);
     }
 
-    public void openUrlWebView(String webviewUrl, FragmentActivity context) {
+    public void openUrlWebView(String webviewUrl, Context context) {
         Intent intent = new Intent(context, CustomWebView.class);
         intent.putExtra(WebService.Data, webviewUrl);
         context.startActivity(intent);
