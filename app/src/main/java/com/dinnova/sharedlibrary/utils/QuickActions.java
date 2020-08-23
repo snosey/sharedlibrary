@@ -101,6 +101,7 @@ public class QuickActions {
     private void makeCall(String phone, FragmentActivity context) {
         if (!phone.isEmpty()) {
             Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setData(Uri.parse("tel:" + phone));
             context.startActivity(intent);
         }
@@ -111,6 +112,7 @@ public class QuickActions {
                 "mailto", MAIL_TO, null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, EXTRA_SUBJECT);
         emailIntent.putExtra(Intent.EXTRA_TEXT, EXTRA_TEXT);
+        emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(Intent.createChooser(emailIntent, TITLE));
     }
 
@@ -132,6 +134,7 @@ public class QuickActions {
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "http://play.google.com/store/apps/details?id=" + context.getPackageName());
         sendIntent.setType("text/plain");
+        sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(sendIntent);
     }
 
@@ -149,12 +152,14 @@ public class QuickActions {
 
     public void openUrlBrowser(String url, Context context) {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        browserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(browserIntent);
     }
 
     public void openUrlWebView(String webviewUrl, Context context) {
         Intent intent = new Intent(context, CustomWebView.class);
         intent.putExtra(WebService.Data, webviewUrl);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
@@ -177,6 +182,7 @@ public class QuickActions {
         try {
             String url = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + URLEncoder.encode("  ", "UTF-8");
             i.setPackage("com.whatsapp");
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.setData(Uri.parse(url));
             if (i.resolveActivity(packageManager) != null) {
                 context.startActivity(i);
