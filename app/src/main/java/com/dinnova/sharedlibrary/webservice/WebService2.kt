@@ -140,6 +140,10 @@ class WebService2(private val activity: Context,
                 Toast.makeText(activity, customResponse.status!!.ErrorMessage, Toast.LENGTH_LONG).show()
                 Log.e("ErrorMsg", customResponse.status!!.ExceptionMessage)
             }
+            else{
+                mListener.onResponse(customResponse)
+                Log.e("ErrorMsg", customResponse.status!!.ExceptionMessage)
+            }
 
         } catch (e: JSONException) {
             e.printStackTrace()
