@@ -244,7 +244,7 @@ public class PickLocation {
                     if (ContextCompat.checkSelfPermission(fragmentActivity,
                             Manifest.permission.ACCESS_FINE_LOCATION)
                             == PackageManager.PERMISSION_GRANTED) {
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+                        checkLocation();
                     }
 
                 } else {
@@ -252,7 +252,6 @@ public class PickLocation {
                     // functionality that depends on this permission.
                     Toast.makeText(fragmentActivity, "permission denied", Toast.LENGTH_LONG).show();
                 }
-                return;
             }
 
             // other 'case' lines to check for other
