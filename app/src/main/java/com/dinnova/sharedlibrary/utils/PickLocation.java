@@ -191,7 +191,11 @@ public class PickLocation {
             mLocationRequest.setFastestInterval(120000);
             mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-        }
+           }
+    }
+
+    public void removeLocationUpdates(){
+        mFusedLocationClient.removeLocationUpdates(mLocationCallback);
     }
 
     private boolean checkLocationPermission() {
