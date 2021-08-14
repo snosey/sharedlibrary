@@ -107,11 +107,11 @@ class WebService2(private val activity: Context,
             val customResponse = WebServiceHelper().CustomResponse()
             customResponse.json = parsed
             try {
-                if (response.headers.containsKey("X-Pagination"))
-                    customResponse.pagination = WebServiceHelper().Pagination().jsonToModel(response.headers["X-Pagination"]) as WebServiceHelper.Pagination?
+                if (response.headers!!.containsKey("X-Pagination"))
+                    customResponse.pagination = WebServiceHelper().Pagination().jsonToModel(response.headers!!["X-Pagination"]) as WebServiceHelper.Pagination?
 
-                if (response.headers.containsKey("X-Status"))
-                    customResponse.status = WebServiceHelper().Status().jsonToModel(response.headers["X-Status"]) as WebServiceHelper.Status?
+                if (response.headers!!.containsKey("X-Status"))
+                    customResponse.status = WebServiceHelper().Status().jsonToModel(response.headers!!["X-Status"]) as WebServiceHelper.Status?
 
             } catch (e: JSONException) {
                 e.printStackTrace()
