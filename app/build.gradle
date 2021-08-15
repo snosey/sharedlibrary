@@ -4,8 +4,10 @@ apply plugin: 'kotlin-parcelize'
 group = 'com.github.snosey'
 
 android {
-    ext { minSdkVersion = 20 }
-    compileSdkVersion 28
+    defaultConfig {
+        compileSdkVersion 28
+        minSdkVersion 20
+    }
 }
 
 dependencies {
@@ -44,7 +46,7 @@ dependencies {
     api 'com.google.firebase:firebase-messaging:22.0.0'
     api "androidx.core:core-ktx:1.6.0"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.20"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.21"
 }
 repositories {
     mavenCentral()

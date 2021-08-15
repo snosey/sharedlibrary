@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dinnova.sharedlibrary">
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application>
         <activity android:name=".utils.views.CustomWebView" />
 
         <receiver android:name=".notification.NotificationClickReceiver" />
+
     </application>
+
 
 </manifest>
