@@ -14,7 +14,13 @@ android {
 afterEvaluate {
     publishing {
         publications {
-           
+            // Creates a Maven publication called "release".
+            maven(MavenPublication) {
+                groupId = 'com.github.snosey'
+                artifactId = 'final-debug'
+                version = '2.0'
+                artifact(bundleReleaseAar)
+            }
         }
     }
 }
