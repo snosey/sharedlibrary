@@ -5,7 +5,8 @@ group = 'com.github.snosey'
 
 android {
     defaultConfig {
-        compileSdkVersion 28
+        compileSdkVersion 30
+        multiDexEnabled true
         minSdkVersion 20
     }
 }
