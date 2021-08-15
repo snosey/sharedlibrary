@@ -11,7 +11,31 @@ android {
         minSdkVersion 20
     }
 }
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                // Applies the component for the release build variant.
+                from components.release
 
+                // You can then customize attributes of the publication as shown below.
+                groupId = 'com.github.snosey'
+                artifactId = 'final'
+                version = '2.0'
+            }
+            // Creates a Maven publication called “debug”.
+            debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
+
+                groupId = 'com.github.snosey'
+                artifactId = 'final-debug'
+                version = '2.0'
+            }
+        }
+    }
+}
 dependencies {
     api 'com.google.android.material:material:1.5.0-alpha02'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -33,9 +57,9 @@ dependencies {
     api 'androidx.appcompat:appcompat:1.4.0-alpha03'
     api 'androidx.constraintlayout:constraintlayout:2.1.0'
     api 'com.loopj.android:android-async-http:1.4.9'
-   // api 'com.yqritc:android-scalablevideoview:1.0.4'
+    // api 'com.yqritc:android-scalablevideoview:1.0.4'
     api 'com.pusher:pusher-java-client:2.0.0'
-   // api 'com.romandanylyk:pageindicatorview:1.0.3'
+    // api 'com.romandanylyk:pageindicatorview:1.0.3'
     api 'com.github.bumptech.glide:glide:4.11.0'
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.github.myinnos:AwesomeImagePicker:1.0.2'
